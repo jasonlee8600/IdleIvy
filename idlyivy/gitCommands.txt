@@ -1,0 +1,36 @@
+If you want to start working, make sure you pull any changes team members made
+    First make sure you're in main by running
+        - git branch (to check)
+        or just 
+        - git switch main
+    Then run
+        - git pull
+
+If you want to work in your own branch, then after pulling into main
+    - git switch BranchName
+    - git merge main
+
+If the changes you made are in main, push when you are done working
+    - git add .
+    - git commit -m "commit message goes here, make it related to what you changed"
+    - git push
+
+If the changes you made are in a branch, push when you are done and merge if safe to do so
+    While still in your branch
+        - git add .
+        - git commit -m "commit message"
+        - git push origin BranchName
+    Then, if you're going to merge, switch to main
+        - git switch main
+    Merge and push 
+        - git merge BranchName
+        - git push
+
+If you want to create a branch
+    - git branch NewBranchName
+
+If you want to see what branch you're in and what you can switch to
+    - git branch
+
+If you want to switch to a different branch
+    - git switch BranchName
