@@ -13,14 +13,59 @@ export default function Yale() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className='flex-row'>
+      <div className="flex-row">
           <SideNav highlight={"Yale"}> </SideNav>
           
-          <div className='flex flex-col bg-[#202B64] h-screen items-center justify-center'>
-            <h1 className='text-[#DADADA]'>Yale Page</h1>
-            <h2 className='text-white'>Join Game!</h2>
-          </div>
+          <div className="flex flex-col bg-[url('../public/yalebg.svg')] bg-contain h-screen items-end justify-center">
+            <div className='flex flex-row'>
+              <img className="h-[130px] w-[130px] mr-[60px] rounded-full outline outline-white outline-[5px]" src="../sterling.svg"></img>
+              <button id="upgrade_buttery" type="button" className="z-10 bg-[#202B64] px-[35px] py-[15px] rounded-full outline outline-white outline-[5px]">
+                <div>
+                  <h2 className={`text-4xl text-white`}>
+                    Upgrade
+                  </h2>
+                </div>
+              </button>
+              <div className='self-center text-center z-0 mr-[70px] bg-gradient-to-b from-[#272727] to-[#797979] px-[100px] py-[15px] rounded-full outline outline-white outline-[5px]'>
+                <h3 className={`text-3xl text-white`}>Sterling Library</h3>
+                <h4 className={`text-2xl text-white`}>Cost: 10,000 tokens</h4>
+                <h4 className={`text-2xl text-white`}>Increases rate by 0.5</h4>
+              </div>
+            </div>
 
+            <div className='flex flex-row'>
+              <img className="h-[130px] w-[130px] mr-[60px] rounded-full outline outline-white outline-[5px]" src="../sterling.svg"></img>
+              <button id="upgrade_buttery" type="button" className="z-10 bg-[#202B64] px-[35px] py-[15px] rounded-full outline outline-white outline-[5px]">
+                <div>
+                  <h2 className={`text-4xl text-white`}>
+                    Upgrade
+                  </h2>
+                </div>
+              </button>
+              <div className='self-center text-center z-0 mr-[70px] bg-gradient-to-b from-[#272727] to-[#797979] px-[100px] py-[15px] rounded-full outline outline-white outline-[5px]'>
+                <h3 className={`text-3xl text-white`}>Sterling Library</h3>
+                <h4 className={`text-2xl text-white`}>Cost: 10,000 tokens</h4>
+                <h4 className={`text-2xl text-white`}>Increases rate by 0.5</h4>
+              </div>
+            </div>
+
+            <div className='flex flex-row mt-[100px]'>
+              <img className="h-[130px] w-[130px] mr-[60px] rounded-full outline outline-white outline-[5px]" src="../sterling.svg"></img>
+              <button id="upgrade_buttery" type="button" className="z-10 bg-[#202B64] px-[35px] py-[15px] rounded-full outline outline-white outline-[5px]">
+                <div>
+                  <h2 className={`text-4xl text-white`}>
+                    Upgrade
+                  </h2>
+                </div>
+              </button>
+              <div className='self-center text-center z-0 mr-[70px] bg-gradient-to-b from-[#272727] to-[#797979] px-[100px] py-[15px] rounded-full outline outline-white outline-[5px]'>
+                <h3 className={`text-3xl text-white`}>Sterling Library</h3>
+                <h4 className={`text-2xl text-white`}>Cost: 10,000 tokens</h4>
+                <h4 className={`text-2xl text-white`}>Increases rate by 0.5</h4>
+              </div>
+            </div>
+
+          </div>
       </div>
     </>
   )
