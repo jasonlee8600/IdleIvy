@@ -1,0 +1,236 @@
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.2;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+
+//Idle game based on adventure capitalist
+//Features include
+// - Users can pay for upgrades/businesses with "unminted" coin and accrue "debt"
+// - Mult++ whenever upgraded
+// - Upgrade costs should grow faster than earnings, 1.2x?
+// - Start at 1 per 60 seconds (1 minute)
+// - Pay to double baseMult
+// - Reset if you have 1 trillion coin and double the base mult
+contract Yale is ERC20, ERC20Burnable, Ownable {
+
+    
+    address manager;
+    address CONTRACT_ADDRESS = address(this);
+    //Number that makes dividing seconds possible
+    uint256 constant timeDecimals = 10**16;
+    
+    constructor() ERC20("Yale", "YALE") {
+        manager = msg.sender;
+    }
+
+    //Example mappings just to remember how they're made
+    mapping (uint => uint) idk;
+    mapping (address => mapping(uint => uint)) notsure;
+    //Mapping of all the addresses to their user struct
+    mapping (address => mapping(uint => Busi)) public Users;
+    mapping (address => Stats) public UserStats;
+
+    modifier manager_function(){
+    require(msg.sender==manager,"Only the manager can call this function");
+    _;}
+
+    //True if the player has "joined" the game
+    modifier player(){
+    require(Users[msg.sender][0].time > 0,"You should join the game to earn coin");
+    _;}
+
+    //True if a user is able to reset their game with a 2x multiplier
+    modifier resetable(){
+    require(balanceOf(msg.sender) >= 10**(8 + 4 * UserStats[msg.sender].resets),"You don't own enough coin to reset");
+    _;}
+
+    //User struct for each address that has joined
+    struct Busi {
+        //Multiplier for earnings (starts at 1x)
+        uint256 mult;
+        //Amount per rate (multiplied by mult eventuall)
+        uint256 quantity;
+        //Rate at which user earns coin (starts at per minute), multiplied times 10**16
+        uint256 rate;
+        //Timestamp the user has been earning since, multiplied times 10**16
+        uint256 time;
+    }
+
+    struct Stats {
+        //Base multiplier for all earnings
+        uint baseMult;
+        //How many times a user resets
+        uint resets;
+        //Unminted coins user is owed
+        uint pastDue;
+        //User's debt
+        uint debt;
+    }
+
+    function decimals() public pure override returns (uint8) {
+        return 1;
+    }
+
+    //Timestamp multiplied by 10**16 for dividing seconds
+    function blockTime() public view returns(uint) {
+        return block.timestamp;
+    }
+
+    //Function that allows new user to join game
+    // - cannot join if you already have
+    // - initilizes each thing in the user struct
+    function joinGame() public {
+        require(Users[msg.sender][0].time == 0, "You've already joined the game");
+        Users[msg.sender][0].time = blockTime();
+        Users[msg.sender][0].mult = 1;
+        Users[msg.sender][0].quantity = 1;
+        Users[msg.sender][0].rate = 10;
+        UserStats[msg.sender].baseMult = 1;
+        UserStats[msg.sender].pastDue = 0;
+        UserStats[msg.sender].debt = 0;
+        UserStats[msg.sender].resets = 1;
+
+    }
+    
+    //How much coin a user is able to mint at the time
+    // - ((Current time - time) / rate * mult * baseMult) + pastDue - debt
+    function mintableCoin() public view player returns(uint owed) {
+        for(uint i; Users[msg.sender][i].time != 0; i++) {
+            uint times = (blockTime() - Users[msg.sender][i].time) / Users[msg.sender][i].rate;
+            owed += (times * Users[msg.sender][i].mult * Users[msg.sender][i].quantity);
+        }
+        owed = 10**decimals() * ((owed * UserStats[msg.sender].baseMult) + UserStats[msg.sender].pastDue - UserStats[msg.sender].debt);
+    }
+
+    //Function that lets user mint their owed coin
+    // - Will mint them mintableCoin()
+    // - Resets User.time to new time (not just current time because we don't want to 
+    //   take away seconds lost during transaction or inbetween User.rate)
+    // - Resets pastDue and debt to 0
+    function mintCoin() public player{
+        require(mintableCoin() > 0, "You have not earned any coin yet");
+        uint owed;
+        for(uint i; Users[msg.sender][i].time != 0; i++) {
+            uint times = (blockTime() - Users[msg.sender][i].time) / Users[msg.sender][i].rate;
+            Users[msg.sender][i].time += times * Users[msg.sender][i].rate;
+            owed += (times * Users[msg.sender][i].mult * Users[msg.sender][i].quantity);
+        }
+        owed = 10**decimals() * ((owed * UserStats[msg.sender].baseMult) + UserStats[msg.sender].pastDue - UserStats[msg.sender].debt);
+        UserStats[msg.sender].pastDue = 0;
+        UserStats[msg.sender].debt = 0;
+        _mint(msg.sender, owed);
+    }
+
+    //Returns the cost of next multiplier upgrade
+    function upgradeMultCost(uint busi) public view player returns(uint) {
+        require(Users[msg.sender][busi].time != 0, "You do not control this business");
+
+        return (10**decimals() * (11**(Users[msg.sender][busi].mult)) * Users[msg.sender][busi].quantity) / (10**(Users[msg.sender][busi].mult));
+    }
+    
+    //Function that actually upgrade multiplier once
+    function upgradeMult(uint busi) public player {
+        require(Users[msg.sender][busi].time != 0, "You do not control this business");
+        uint cost = upgradeMultCost(busi);
+        require(balanceOf(msg.sender) + mintableCoin() >= cost, "You do not have enough coin to upgrade your multiplier");
+        if (balanceOf(msg.sender) >= cost) {
+            burn(cost);
+        }
+        else {
+            cost -= balanceOf(msg.sender);
+            burn(balanceOf(msg.sender));
+            UserStats[msg.sender].debt += cost;
+        }
+        
+        uint times = (blockTime() - Users[msg.sender][busi].time) / Users[msg.sender][busi].rate;
+        UserStats[msg.sender].pastDue += 10**decimals() * times * Users[msg.sender][busi].mult * Users[msg.sender][busi].quantity * UserStats[msg.sender].baseMult;
+        Users[msg.sender][busi].time += times * Users[msg.sender][busi].rate;
+        Users[msg.sender][busi].mult += 1;
+    }
+
+    //Function that allows user to maximally upgrade their multiplier
+    //Check this
+    function upgradeMultMax(uint _index) public player {
+        require(Users[msg.sender][_index].time != 0, "You do not control this business");
+        while(balanceOf(msg.sender) + mintableCoin() >= upgradeMultCost(_index)) {
+            upgradeMult(_index);
+        }
+    }
+
+    //Gets the next business available to the user
+    function nextBusiness() public view player returns(uint i) {
+        while(Users[msg.sender][i].time != 0) {
+            i++;
+        }
+    }
+
+    function unlockNextBusiness() public player {
+        uint i = nextBusiness();
+        uint cost = 10**i * 10**decimals();
+        require(balanceOf(msg.sender) + mintableCoin() >= cost, "You do not have enough coin to buy this business");
+        if (balanceOf(msg.sender) >= cost) {
+            burn(cost);
+        }
+        else {
+            cost -= balanceOf(msg.sender);
+            burn(balanceOf(msg.sender));
+            UserStats[msg.sender].debt += cost;
+        }
+        Users[msg.sender][i].mult = 1;
+        Users[msg.sender][i].quantity = 10**i;
+        Users[msg.sender][i].rate = 10**(i + 1);
+        Users[msg.sender][i].time = blockTime();
+    }
+
+    /*
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    Cole help me understand payable and msg.value
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    */
+    
+    //Function that allows user to pay .00n ETH and in return add n to User.baseMult
+    function payToUpgradeMult() public payable player {
+        //I don't think we need this based on how I want to do this upgrade
+        //require(msg.value >= 0, "You can't pay to win if you don't pay");
+        //I know this math is wrong because we probably need to divide msg.value by like 10**14 or something
+        UserStats[msg.sender].baseMult += msg.value / 10**17;
+    }
+
+    //Function that allows user to pay .005 ETH and in return recieves 
+    //  coin proportional to their current mult and rate upgrade costs
+    /*function payForProportionalCoin() public payable player {
+        //I know the 5 here is wrong but I want it to be >= .005 ETH
+        require(msg.value == 5, "You can't pay to win if you don't pay");
+        _mint(msg.sender, (upgradeMultCost() + upgradeRateCost()) / 3);
+    }*/
+
+    //Function that allows user with a lot of coin to reset their game with a 2x baseMult
+    // - reset cost is equal to 10**(12*User.reset)
+    // - starts at 1 trillion, then 10**24, then 10**36
+    function reset() public player resetable {
+        burn(balanceOf(msg.sender));
+        for(uint i = 1; Users[msg.sender][i].time != 0; i++) {
+            Users[msg.sender][i].time = 0;
+            Users[msg.sender][i].mult = 0;
+            Users[msg.sender][i].rate = 0;
+        }
+        Users[msg.sender][0].time = blockTime();
+        Users[msg.sender][0].mult = 1;
+        Users[msg.sender][0].rate = 60 * timeDecimals;
+        UserStats[msg.sender].baseMult *= 2;
+        UserStats[msg.sender].pastDue = 0;
+        UserStats[msg.sender].debt = 0;
+        UserStats[msg.sender].resets++;
+    }
+
+    //Things I want to add
+    // - limit off-chain earning to something like a day or week
+    // - Pay to increase their off-chain earning by a day or week
+    // - Optimize contract and math to make this as cheap as possible for users to play
+    // - Limitied time deals for new players, 50% to upgrade if mult is below some level
+}
