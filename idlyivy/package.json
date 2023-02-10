@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ethersproject/providers": "^5.7.2",
     "@next/font": "13.1.6",
+    "@web3-react/core": "^6.1.9",
     "next": "13.1.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
