@@ -2,8 +2,8 @@ import Link from "next/link";
 
 function SideNav({ highlight }) {
     return (
-        <div className="flex flex-col items-center hidden h-screen md:flex w-[250px] md:min-w-[250px] lg:min-w-[250px] z-30 fixed top-0  gap-2 shadow-2xl bg-gradient-to-b from-[#272727] to-[#797979]">
-            <div className="flex poi gap-2 p-2">
+        <div className="flex flex-col items-center hidden h-screen md:flex w-[250px] md:min-w-[250px] lg:min-w-[250px] fixed top-0  gap-2 shadow-2xl bg-gradient-to-b from-[#272727] to-[#797979] outline outline-white outline-[5px]">
+            <div className="fixed top-[2%]">
                 <Link href="http://localhost:3000/">
                         <h2 className="text-white font-semibold text-[60px]">
                             IdleIvy
@@ -11,11 +11,11 @@ function SideNav({ highlight }) {
                 </Link>
             </div>
 
-            <div>
+            <div className="fixed top-[15%]">
                 <img className="mt=[20px]" src="../yalelogo.svg"></img>
             </div>
 
-            <div>
+            <div className="fixed top-[35%]">
                 <div className="flex flex-col items-center mt-[20px]">
                     <h2 className={`text-4xl text-white`}>
                         Tokens:
@@ -23,7 +23,7 @@ function SideNav({ highlight }) {
                     <h3 className={`text-2xl text-white`}>1,000,000</h3>
                 </div>
 
-                <div className="flex flex-col items-center mt-[40px]">
+                <div className="flex flex-col items-center mt-[50px]">
                     <h2 className={`text-4xl text-white`}>
                         Rate:
                     </h2>
@@ -31,7 +31,7 @@ function SideNav({ highlight }) {
                 </div>
 
 
-                <button oid="collect" type="button" className="bg-[#202B64] mt-[40px] px-[35px] py-[10px] rounded-full outline outline-white outline-[6px]">
+                <button id="collect" type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[6px]">
                     <div className="flex flex-col items-center">
                         <h2 className={`text-4xl text-white`}>
                             Collect:
@@ -41,14 +41,14 @@ function SideNav({ highlight }) {
                 </button>
             </div>
 
-            <div>
+            <div className="fixed top-[80%]">
                 <div className="flex flex-col items-center">
                     <h2 className="text-white font-semibold text-[30px]">
                         Leaderboard
                     </h2>
                 </div>
 
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center mt-[20px]">
                     <Link href="http://localhost:3000/">
                         <h2 className="text-white font-semibold text-[30px]">
                             Home
