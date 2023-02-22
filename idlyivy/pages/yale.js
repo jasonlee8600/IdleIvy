@@ -1,7 +1,8 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 import SideNav from 'components/SideNav.js'
+import Item from '@/components/Item'
+import buttery from "public/buttery.jpeg"
 
 export default function Yale() {
   return (
@@ -14,87 +15,21 @@ export default function Yale() {
       </Head>
       
       
+      <div>  
+        <div className='flex flex-row justify-between'>
           <SideNav highlight={"Yale"}> </SideNav>
           
-          <div className="flex flex-col bg-[url('../public/yalebg.jpeg')] bg-cover h-screen items-center justify-center ml-[250px]">
+          <div className="flex flex-col w-full bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] gap-[75px]">
             
-            <div className='flex flex-row'>
-              <img className="h-[130px] w-[250px] mr-[60px] rounded-full outline outline-white outline-[7px]" src="../buttery.jpeg"></img>
-              <div className='flex flex-row w-[850px]'>
-                <button id="upgrade_buttery" type="button" className="z-10 bg-[#202B64] h-[130px] w-[250px] rounded-full outline outline-white outline-[7px]">
-                  <div>
-                    <h2 className={`text-4xl text-white`}>
-                      Upgrade
-                    </h2>
-                  </div>
-                </button>
-                <div className='fixed text-center z-0 bg-gradient-to-b from-[#272727] to-[#797979] h-[130px] w-[850px] rounded-full outline outline-white outline-[7px]'>
-                  <div className='relative top-[20%] left-[15%]'>
-                    <h3 className={`text-3xl text-white justify-center mb-[10px]`}>Buttery</h3>
-                    <h4 className={`text-2xl text-white justify-center`}>Use 1,000 tokens to increase rate by 0.1 tokens</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='flex flex-row mt-[75px]'>
-              <img className="h-[130px] w-[250px] mr-[60px] rounded-full outline outline-white outline-[7px]" src="../sterling.jpeg"></img>
-              <div className='flex flex-row w-[850px]'>
-                <button id="upgrade_sterling" type="button" className="z-10 bg-[#202B64] h-[130px] w-[250px] rounded-full outline outline-white outline-[7px]">
-                  <div>
-                    <h2 className={`text-4xl text-white`}>
-                      Upgrade
-                    </h2>
-                  </div>
-                </button>
-                <div className='fixed text-center z-0 bg-gradient-to-b from-[#272727] to-[#797979] h-[130px] w-[850px] rounded-full outline outline-white outline-[7px]'>
-                  <div className='relative top-[20%] left-[15%]'>
-                    <h3 className={`text-3xl text-white justify-center mb-[10px]`}>Sterling Library</h3>
-                    <h4 className={`text-2xl text-white justify-center`}>Use 10,000 tokens to increase rate by 0.5 tokens</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='flex flex-row mt-[75px]'>
-              <img className="h-[130px] w-[250px] mr-[60px] rounded-full outline outline-white outline-[7px]" src="../yalebowl.jpeg"></img>
-              <div className='flex flex-row w-[850px]'>
-                <button id="upgrade_yalebowl" type="button" className="z-10 bg-[#202B64] h-[130px] w-[250px] rounded-full outline outline-white outline-[7px]">
-                  <div>
-                    <h2 className={`text-4xl text-white`}>
-                      Upgrade
-                    </h2>
-                  </div>
-                </button>
-                <div className='fixed text-center z-0 bg-gradient-to-b from-[#272727] to-[#797979] h-[130px] w-[850px] rounded-full outline outline-white outline-[7px]'>
-                  <div className='relative top-[20%] left-[15%]'>
-                    <h3 className={`text-3xl text-white justify-center mb-[10px]`}>Yale Bowl</h3>
-                    <h4 className={`text-2xl text-white justify-center`}>Use 100,000 tokens to increase rate by 1.0 tokens</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='flex flex-row mt-[75px]'>
-              <img className="h-[130px] w-[250px] mr-[60px] rounded-full outline outline-white outline-[7px]" src="../handsomedan.jpeg"></img>
-              <div className='flex flex-row w-[850px]'>
-                <button id="upgrade_dan" type="button" className="z-10 bg-[#202B64] h-[130px] w-[250px] rounded-full outline outline-white outline-[7px]">
-                  <div>
-                    <h2 className={`text-4xl text-white`}>
-                      Upgrade
-                    </h2>
-                  </div>
-                </button>
-                <div className='fixed text-center z-0 bg-gradient-to-b from-[#272727] to-[#797979] h-[130px] w-[850px] rounded-full outline outline-white outline-[7px]'>
-                  <div className='relative top-[20%] left-[15%]'>
-                    <h3 className={`text-3xl text-white justify-center mb-[10px]`}>Handsome Dan </h3>
-                    <h4 className={`text-2xl text-white justify-center`}>Use 1,000,000 tokens to increase rate by 5.0 tokens</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Item title="Buttery" desc="Use 1,000 tokens to increase rate by 0.1 tokens" image={buttery}></Item>
+            <Item title="Sterling Library" desc="Use 10,000 tokens to increase rate by 0.5 tokens" image={buttery}></Item>
+            <Item title="Yale Bowl" desc="Use 100,000 tokens to increase rate by 1.0 tokens" image={buttery}></Item>
+            <Item title="Handsome Dan" desc="Use 1,000,000 tokens to increase rate by 5.0 tokens" image={buttery}></Item>
 
           </div>
+        </div>
+
+      </div> 
    
     </>
   )

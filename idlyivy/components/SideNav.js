@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function SideNav({ highlight }) {
     return (
-        <div className="flex flex-col items-center hidden h-screen md:flex w-[250px] md:min-w-[250px] lg:min-w-[250px] fixed top-0  gap-2 shadow-2xl bg-gradient-to-b from-[#272727] to-[#797979] outline outline-white outline-[15px]">
+        <div className="flex flex-col items-center hidden h-screen md:flex w-[250px] md:min-w-[250px] lg:min-w-[250px] fixed top-0 gap-2 shadow-2xl bg-gradient-to-b from-[#272727] to-[#797979] outline outline-white outline-[5px]">
             <div className="fixed top-[2%]">
                 <Link href="http://localhost:3000/">
                         <h2 className="text-white font-semibold text-[60px]">
