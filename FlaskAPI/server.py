@@ -1,6 +1,24 @@
 from flask import Flask, request
+import mysql.connector
+import keys
+
 
 app = Flask(__name__)
+
+db = mysql.connector.connect(
+        host=keys.adr,
+        user='root',
+        password=keys.pw,
+        database='Users'
+    )
+
+cursor = db.cursor()
+
+cursor.execute('SELECT * FROM users')
+results = cursor.fetchall()
+
+print((results))
+
 
 @app.route("/")
 def index():
