@@ -7,7 +7,11 @@ import sterling from "public/sterling.jpeg"
 import yaleBowl from "public/yalebowl.jpeg"
 import handsomeDan from "public/handsomedan.jpeg"
 
-export default function Yale() {
+
+
+
+
+export default function Contract() {
   return (
     <>
       <Head>
@@ -24,10 +28,6 @@ export default function Yale() {
           
           <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] gap-[75px] pt-16">
             
-            <Item title="Buttery" desc="Rate: 1 token / minute" image={buttery}></Item>
-            <Item title="Sterling Library" desc="Rate: 10 tokens / minute" image={sterling}></Item>
-            <Item title="Yale Bowl" desc="Rate: 100 tokens / minute" image={yaleBowl}></Item>
-            <Item title="Handsome Dan" desc="Rate: 1,000 tokens / minute" image={handsomeDan}></Item>
             <Item title="Buttery" desc="Rate: 1 token / minute" image={buttery}></Item>
             <Item title="Sterling Library" desc="Rate: 10 tokens / minute" image={sterling}></Item>
             <Item title="Yale Bowl" desc="Rate: 100 tokens / minute" image={yaleBowl}></Item>
