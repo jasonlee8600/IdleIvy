@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-async": "^10.0.1",
     "tailwindcss": "^3.2.4"
   }
 }
