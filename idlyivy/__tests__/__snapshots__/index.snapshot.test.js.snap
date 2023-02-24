@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="flex flex-col bg-white h-screen justify-center"
+>
+  <h2
+    className="text-[#2222DD]"
+  >
+    Join Game!
+  </h2>
+</div>
+`;

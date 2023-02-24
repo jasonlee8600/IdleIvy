@@ -8,7 +8,7 @@ function Item({ title, desc, image }) {
 
 
             <div className='flex flex-row ml-[25px]'>
-              <Image src={image} width={65} className="rounded-full outline outline-white outline-[4px]"></Image>
+              <Image alt="Buttery" src={image} width={65} height="auto" className="rounded-full outline outline-white outline-[4px]"></Image>
               
               <div className='flex flex-row w-full pl-4'>
                 
