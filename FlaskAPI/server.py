@@ -2,9 +2,11 @@ from flask import Flask, request
 import mysql.connector
 import keys
 import json
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 db = mysql.connector.connect(
         host=keys.adr,
@@ -20,17 +22,18 @@ results = cursor.fetchall()
 
 print((results))
 
-@app.route("/getLB")
+@app.route("/getLB", methods=['GET'])
 def leaderboard():
-    cursor.execute('SELECT rate,nickname FROM users ORDER BY rate DESC LIMIT 10')
-    row_headers=[x[0] for x in cursor.description]
+
+    if request.method == 'GET':
+        cursor.execute('SELECT rate,nickname FROM users ORDER BY rate DESC LIMIT 10')
+
+        results = cursor.fetchall()
+        
     
-    results = cursor.fetchall()
-    json_data=[]
-    for result in results:
-        json_data.append(dict(zip(row_headers,result)))
-   
-    return json.dumps(json_data)
+        return json.dumps(results)
+    
+    return "INVALID(TODO)"
 
 
 @app.route("/")
