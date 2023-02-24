@@ -1,6 +1,7 @@
 from flask import Flask, request
 import mysql.connector
 import keys
+import json
 
 
 app = Flask(__name__)
@@ -12,12 +13,24 @@ db = mysql.connector.connect(
         database='Users'
     )
 
-cursor = db.cursor()
+cursor = db.cursor(dictionary=True)
 
 cursor.execute('SELECT * FROM users')
 results = cursor.fetchall()
 
 print((results))
+
+@app.route("/getLB")
+def leaderboard():
+    cursor.execute('SELECT rate,nickname FROM users ORDER BY rate DESC LIMIT 10')
+    row_headers=[x[0] for x in cursor.description]
+    
+    results = cursor.fetchall()
+    json_data=[]
+    for result in results:
+        json_data.append(dict(zip(row_headers,result)))
+   
+    return json.dumps(json_data)
 
 
 @app.route("/")
