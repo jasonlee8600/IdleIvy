@@ -20,7 +20,7 @@ export default function Yale() {
         <div className='flex flex-row justify-between'>
           <SideNav highlight={"Yale"}> </SideNav>
           
-          <div className="flex flex-col w-full bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] gap-[75px]">
+          <div className="flex flex-col w-full h-screen bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] gap-[75px] pt-16">
             
             <Leaderboard></Leaderboard>
 
