@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+//import { Inter } from '@next/font/google'
+import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 
-const inter = Inter({ subsets: ['latin'] })
+//const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
@@ -18,7 +18,7 @@ export default function Home() {
       <div className='flex flex-col bg-white h-screen justify-center'>
         
         
-        <Link className='text-[#0000FF] self-center' href={"./yale"}>Yale Page</Link>
+        {/*<Link className='text-[#0000FF] self-center' href={"./yale"}>Yale Page</Link>*/}
         <h2 className='text-[#2222DD]'>Join Game!</h2>
 
 
