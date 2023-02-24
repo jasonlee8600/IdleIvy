@@ -6,12 +6,104 @@ import buttery from "public/buttery.jpeg"
 import sterling from "public/sterling.jpeg"
 import yaleBowl from "public/yalebowl.jpeg"
 import handsomeDan from "public/handsomedan.jpeg"
+import Web3 from "web3";
+import Yale from '../conect/Yale'
+import { getContract } from "../conect/yaleContract";
+import { useState, useEffect } from "react";
+import { useWeb3React } from "@web3-react/core";
+import Wallet from '@/components/Wallet'
 
 
+/*export async function getStaticProps(context){
 
+	try {
+		const web3 = new Web3(`wss://mainnet.infura.io/ws/v3/${process.env.INFURA}`)
+
+		const yaleContract = new web3.eth.Contract(Yale.abi,'0xc57c5ac5cdbfe5d77a4dd539205bc07df0930533')
+
+		
+        var owner = await yaleContract.methods.owner().call()
+
+        var data = {
+			total:{
+				mid:0,
+				share:0,
+				you:0,
+				per:0
+			},
+            baseMult:1
+		}
+
+
+		return {
+			props: {
+				data
+			}
+			
+		}
+	}catch(error){
+		console.log(error)
+	}
+	return[]
+}*/
 
 
 export default function Contract() {
+
+    
+    const [balance, setBalance] = useState(1);
+    const [userStats, setUserStats] = useState({});
+	const [loaded, setLoaded] = useState(false);
+    const web3reactContext = useWeb3React();
+
+    console.log("WHat is this: ", web3reactContext)
+    
+    useEffect(() => {
+        // setShowModal(true)
+        init();
+        if (window.ethereum) {
+            window.ethereum.on("accountsChanged", function (accounts) {
+                reload();
+            });
+            init();
+        } else {
+            init();
+        }
+    }, []);
+	
+	
+	async function init(){
+        console.log("hitting init")
+        console.log("account: ", web3reactContext.account)
+		try {
+        
+            if (web3reactContext.account != undefined) {
+				const YaleContract = await getContract(
+					web3reactContext.library,
+					web3reactContext.account
+				);
+
+				
+				const balance = parseInt(await YaleContract.balanceOf(web3reactContext.account))
+				setBalance(balance)
+				
+				console.log("Hitting here")
+				setLoaded(true)
+			}
+			else {
+                setBalance(2)
+                setLoaded(true)
+			}
+        } catch (error) {
+            console.log(error);
+        }
+	}
+	function reload(){
+		window.location.reload(false);
+	}
+    
+    
+
   return (
     <>
       <Head>
@@ -28,7 +120,9 @@ export default function Contract() {
           
           <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] gap-[75px] pt-16">
             
-            <Item title="Buttery" desc="Rate: 1 token / minute" image={buttery}></Item>
+            <Wallet {...{ init, reload }}></Wallet>
+            
+            <Item title={balance} desc="Rate: 1 token / minute" image={buttery}></Item>
             <Item title="Sterling Library" desc="Rate: 10 tokens / minute" image={sterling}></Item>
             <Item title="Yale Bowl" desc="Rate: 100 tokens / minute" image={yaleBowl}></Item>
             <Item title="Handsome Dan" desc="Rate: 1,000 tokens / minute" image={handsomeDan}></Item>
