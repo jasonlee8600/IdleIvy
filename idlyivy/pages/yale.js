@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
-import SideNav from 'components/SideNav.js'
-import Item from '@/components/Item'
-import buttery from "public/buttery.jpeg"
-import sterling from "public/sterling.jpeg"
-import yaleBowl from "public/yalebowl.jpeg"
-import handsomeDan from "public/handsomedan.jpeg"
+import SideNav from '../components/SideNav.js'
+import Item from '../components/Item'
+import buttery from "../public/buttery.jpeg"
+import sterling from "../public/sterling.jpeg"
+import yaleBowl from "../public/yalebowl.jpeg"
+import handsomeDan from "../public/handsomedan.jpeg"
 
 export default function Yale() {
   return (
