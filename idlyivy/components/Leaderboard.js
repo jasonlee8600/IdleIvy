@@ -27,6 +27,7 @@ export default function Leaderboard() {
                 
             <div className="flex flex-col w-4/5 h-fit bg-[#DADADA] self-center items-center">  
                 <LBHeader></LBHeader>
+                
                 <LBList leaders={top10list}></LBList>
             </div>
        
