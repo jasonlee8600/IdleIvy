@@ -52,11 +52,14 @@ export default function Contract() {
 
     
     const [balance, setBalance] = useState(1);
+    const [rate, setRate] = useState(1);
+    const [busiStats, setBusiStats] = useState([{}]);
     const [userStats, setUserStats] = useState({});
-	const [loaded, setLoaded] = useState(false);
+    const [mintable, setMintable] = useState(1);
+	  const [loaded, setLoaded] = useState(false);
     const web3reactContext = useWeb3React();
 
-    console.log("WHat is this: ", web3reactContext)
+    //console.log("WHat is this: ", web3reactContext)
     
     useEffect(() => {
         // setShowModal(true)
@@ -77,7 +80,7 @@ export default function Contract() {
         console.log("account: ", web3reactContext.account)
 		try {
         
-            if (web3reactContext.account != undefined) {
+      if (web3reactContext.account != undefined) {
 				const YaleContract = await getContract(
 					web3reactContext.library,
 					web3reactContext.account
@@ -85,22 +88,77 @@ export default function Contract() {
 
 				
 				const balance = parseInt(await YaleContract.balanceOf(web3reactContext.account))
-				setBalance(balance)
+
+        var busiData = [
+          {mult: 0, quantity:0, rate:0, time:0},
+          {mult: 0, quantity:0, rate:0, time:0},
+          {mult: 0, quantity:0, rate:0, time:0},
+          {mult: 0, quantity:0, rate:0, time:0}
+        ]
+        
+        var tmpRate = 0
+        
+        for(var i = 0; i<4; i++) {
+          var tmpUserStats = await YaleContract.Users(web3reactContext.account,0)
+          //console.log("Rate: ", parseInt(tmpUserStats[0]))
+          busiData[i]['mult'] = parseInt(tmpUserStats[0])
+          busiData[i]['quantity'] = parseInt(tmpUserStats[1])
+          busiData[i]['rate'] = parseInt(tmpUserStats[2])
+          busiData[i]['time'] = parseInt(tmpUserStats[3])
+
+          tmpRate += (busiData[i]['mult'] * busiData[i]['rate'])
+        }
+
+				if (busiData[0]['time'] != 0) {
+          var tmpMintable = parseInt(await YaleContract.mintableCoin())
+          setMintable(tmpMintable)
+        }
 				
-				console.log("Hitting here")
+        console.log("Hitting here")
+        setBalance(balance)
+        setRate(tmpRate)
+        setBusiStats(busiData)
 				setLoaded(true)
 			}
 			else {
-                setBalance(2)
-                setLoaded(true)
+        setBalance(0)
+        setRate(0)
+        setBusiStats([
+          {mult: 0, quantity:0, rate:0, time:0},
+          {mult: 0, quantity:0, rate:0, time:0},
+          {mult: 0, quantity:0, rate:0, time:0},
+          {mult: 0, quantity:0, rate:0, time:0}
+        ])
+        setLoaded(true)
 			}
-        } catch (error) {
-            console.log(error);
-        }
+    } catch (error) {
+        console.log(error);
+    }
 	}
-	function reload(){
+	
+  function reload(){
 		window.location.reload(false);
 	}
+
+  async function joinGame() {
+        
+    const YaleContract = getContract(
+        web3reactContext.library,
+        web3reactContext.account
+    );
+
+    
+    try {
+      let joining = await YaleContract.joinGame();
+
+      await joining.wait();
+
+      init();
+    }
+    catch (error) {
+      console.log(error)
+    }
+}
     
     
 
@@ -114,6 +172,9 @@ export default function Contract() {
       </Head>
       
       
+    <>
+      
+    {loaded ?
       <div>  
         <div className='flex flex-row justify-between'>
           <SideNav highlight={"Yale"}> </SideNav>
@@ -122,7 +183,20 @@ export default function Contract() {
             
             <Wallet {...{ init, reload }}></Wallet>
             
-            <Item title={balance} desc="Rate: 1 token / minute" image={buttery}></Item>
+            <h2 className='text-white text-2xl text-center'>Balance: {balance}</h2>
+            
+            {busiStats[0]['time'] ?
+              <h2 className='text-white text-xl text-center'>Rate: {rate} tokens / min</h2>
+            :
+            <>
+              {web3reactContext.account != undefined ?
+              <button className='bg-[#dadada] w-1/3 self-center rounded-md text-black text-xl text-center p-4' onClick={joinGame}>Join game!</button>
+              :
+              <h2 className='text-white text-xl text-center'>Connect Wallet Above!</h2>
+              }
+            </>
+            }
+            <Item title="Buttery" desc="Rate: 1 token / minute" image={buttery}></Item>
             <Item title="Sterling Library" desc="Rate: 10 tokens / minute" image={sterling}></Item>
             <Item title="Yale Bowl" desc="Rate: 100 tokens / minute" image={yaleBowl}></Item>
             <Item title="Handsome Dan" desc="Rate: 1,000 tokens / minute" image={handsomeDan}></Item>
@@ -131,6 +205,17 @@ export default function Contract() {
         </div>
 
       </div> 
+
+      :
+      <>
+      
+      <Wallet {...{ init, reload }}></Wallet>
+      <a>Something went wrong</a>
+
+      </>
+    }
+
+    </>
    
     </>
   )
