@@ -4,7 +4,7 @@ If you want to start working, make sure you pull any changes team members made
         or just 
         - git switch main
     Then run
-        - git pull?
+        - git pull
 
 If you want to work in your own branch, then after pulling into main
     - git switch BranchName
