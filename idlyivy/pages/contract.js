@@ -14,40 +14,6 @@ import { useWeb3React } from "@web3-react/core";
 import Wallet from '@/components/Wallet'
 
 
-/*export async function getStaticProps(context){
-
-	try {
-		const web3 = new Web3(`wss://mainnet.infura.io/ws/v3/${process.env.INFURA}`)
-
-		const yaleContract = new web3.eth.Contract(Yale.abi,'0xc57c5ac5cdbfe5d77a4dd539205bc07df0930533')
-
-		
-        var owner = await yaleContract.methods.owner().call()
-
-        var data = {
-			total:{
-				mid:0,
-				share:0,
-				you:0,
-				per:0
-			},
-            baseMult:1
-		}
-
-
-		return {
-			props: {
-				data
-			}
-			
-		}
-	}catch(error){
-		console.log(error)
-	}
-	return[]
-}*/
-
-
 export default function Contract() {
 
     
@@ -62,8 +28,9 @@ export default function Contract() {
     //console.log("WHat is this: ", web3reactContext)
     
     useEffect(() => {
-        // setShowModal(true)
+        
         init();
+        
         if (window.ethereum) {
             window.ethereum.on("accountsChanged", function (accounts) {
                 reload();
@@ -73,6 +40,19 @@ export default function Contract() {
             init();
         }
     }, []);
+
+    useEffect(() => {
+      //if (web3reactContext.account != undefined && (userStats['resets'] != undefined && userStats['resets'] != 0)) {
+        //console.log("Hello")
+        const interval = setInterval(() => {
+          setMintable(mintable + (10 * rate));
+        }, 60000);
+  
+        return () => {
+          clearInterval(interval);
+        };
+      //}
+   });
 	
 	
 	async function init(){
@@ -89,6 +69,14 @@ export default function Contract() {
 				
 				const balance = parseInt(await YaleContract.balanceOf(web3reactContext.account))
 
+        var userData = {baseMult: 0, resets:0, pastDue:0, debt:0}
+          
+        var tmpUserStats = await YaleContract.Users(web3reactContext.account,0)
+        userData['baseMult'] = parseInt(tmpUserStats[0])
+        userData['resets'] = parseInt(tmpUserStats[1])
+        userData['pastDue'] = parseInt(tmpUserStats[2])
+        userData['debt'] = parseInt(tmpUserStats[3])
+        
         var busiData = [
           {mult: 0, quantity:0, rate:0, time:0},
           {mult: 0, quantity:0, rate:0, time:0},
@@ -98,26 +86,35 @@ export default function Contract() {
         
         var tmpRate = 0
         
-        for(var i = 0; i<4; i++) {
-          var tmpUserStats = await YaleContract.Users(web3reactContext.account,0)
+        for(var i = 0; i<4; i += 1) {
+          var tmpBusiStats = await YaleContract.Users(web3reactContext.account,i)
           //console.log("Rate: ", parseInt(tmpUserStats[0]))
-          busiData[i]['mult'] = parseInt(tmpUserStats[0])
-          busiData[i]['quantity'] = parseInt(tmpUserStats[1])
-          busiData[i]['rate'] = parseInt(tmpUserStats[2])
-          busiData[i]['time'] = parseInt(tmpUserStats[3])
+          busiData[i]['mult'] = parseInt(tmpBusiStats[0])
+          busiData[i]['quantity'] = parseInt(tmpBusiStats[1])
+          busiData[i]['rate'] = parseInt(tmpBusiStats[2])
+          busiData[i]['time'] = parseInt(tmpBusiStats[3])
 
-          tmpRate += (busiData[i]['mult'] * busiData[i]['rate'])
+          tmpRate += (busiData[i]['mult'] * busiData[i]['quantity'] * userData['baseMult'])
+          console.log("i: ", i)
+          console.log("mult: ", busiData[i]['mult'])
+          console.log("quantity: ", busiData[i]['quantity'])
+          console.log("basemult: ", userData['baseMult'])
+
         }
 
 				if (busiData[0]['time'] != 0) {
           var tmpMintable = parseInt(await YaleContract.mintableCoin())
           setMintable(tmpMintable)
         }
+        else {
+          setMintable(0)
+        }
 				
         console.log("Hitting here")
         setBalance(balance)
-        setRate(tmpRate)
+        setRate(tmpRate/2)
         setBusiStats(busiData)
+        setUserStats(userData)
 				setLoaded(true)
 			}
 			else {
@@ -129,6 +126,7 @@ export default function Contract() {
           {mult: 0, quantity:0, rate:0, time:0},
           {mult: 0, quantity:0, rate:0, time:0}
         ])
+        setMintable(0)
         setLoaded(true)
 			}
     } catch (error) {
@@ -177,13 +175,15 @@ export default function Contract() {
     {loaded ?
       <div>  
         <div className='flex flex-row justify-between'>
-          <SideNav highlight={"Yale"}> </SideNav>
+          <SideNav page="Yale" image={"../yalelogo.svg"} balance={balance} rate={rate} mintable={mintable} init={init}></SideNav>
           
-          <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] gap-[75px] pt-16">
+          <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] pt-8">
             
             <Wallet {...{ init, reload }}></Wallet>
             
-            <h2 className='text-white text-2xl text-center'>Balance: {balance}</h2>
+            <h1 className='text-white text-4xl text-center'>Yale Idle Token</h1>
+            <h2 className='text-white text-2xl text-center py-4'>Balance: {balance / 10}</h2>
+            <h2 className='text-white text-2xl text-center pb-8'>Mintable: {mintable / 10}</h2>
             
             {busiStats[0]['time'] ?
               <h2 className='text-white text-xl text-center'>Rate: {rate} tokens / min</h2>
@@ -196,11 +196,24 @@ export default function Contract() {
               }
             </>
             }
-            <Item title="Buttery" desc="Rate: 1 token / minute" image={buttery}></Item>
-            <Item title="Sterling Library" desc="Rate: 10 tokens / minute" image={sterling}></Item>
-            <Item title="Yale Bowl" desc="Rate: 100 tokens / minute" image={yaleBowl}></Item>
-            <Item title="Handsome Dan" desc="Rate: 1,000 tokens / minute" image={handsomeDan}></Item>
-
+            <div className="flex flex-col w-full gap-[75px] py-16">
+              <Item 
+                title="Buttery" desc="For students who don't sleep" image={buttery} 
+                busi={busiStats[0]} busiNum={0} init={init} balance={balance} user={userStats}>
+              </Item>
+              <Item 
+                title="Sterling Library" desc="For students who want to sleep" image={sterling} 
+                busi={busiStats[1]} busiNum={1} init={init} balance={balance} user={userStats}>
+              </Item>
+              <Item 
+                title="Yale Bowl" desc="For students that don't study" image={yaleBowl} 
+                busi={busiStats[2]} busiNum={2} init={init} balance={balance} user={userStats}>
+              </Item>
+              <Item
+                title="Handsome Dan" desc="For all students" image={handsomeDan} 
+                busi={busiStats[3]} busiNum={3} init={init} balance={balance} user={userStats}>
+              </Item>
+            </div>
           </div>
         </div>
 
