@@ -32,8 +32,8 @@ function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
   });
 
   async function loadBusi() {
-    //console.log("Busi: ", busiNum)
-    if(web3reactContext.account != undefined && user['resets'] != 0) {
+    console.log("Busi: ", user['resets'])
+    if(web3reactContext.account != undefined && user['resets'] > 0) {
 
       const YaleContract = getContract(
         web3reactContext.library,
@@ -91,7 +91,7 @@ function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
 }
 
 async function unlockBusi() {
-        
+  
   if(web3reactContext.account != undefined && user['resets'] != 0) {
     const YaleContract = getContract(
         web3reactContext.library,

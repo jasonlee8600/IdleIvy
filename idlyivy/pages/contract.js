@@ -114,7 +114,7 @@ export default function Contract() {
 				
         console.log("Hitting here")
         setBalance(balance)
-        setRate(tmpRate/2)
+        setRate(tmpRate)
         setBusiStats(busiData)
         setUserStats(userData)
 				setLoaded(true)
@@ -208,7 +208,7 @@ async function mint() {
     {loaded ?
       <div>  
         <div className='flex flex-row justify-between'>
-          <SideNav page="Yale" image={"../yalelogo.svg"} balance={balance} rate={rate} mintable={mintable} init={init}></SideNav>
+          <SideNav page="Yale" image={"../yalelogo.svg"} balance={balance} rate={rate} mintable={mintable} init={init} joinGame={joinGame} user={userStats}></SideNav>
           
           <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px]">
             

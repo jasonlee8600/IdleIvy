@@ -2,18 +2,19 @@ import Link from "next/link";
 import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
 
-function SideNav({ page, image, balance, rate, mintable, init}) {
+function SideNav({ page, image, balance, rate, mintable, init, joinGame, user}) {
     
     const web3reactContext = useWeb3React();
 
     async function mint() {
 
-        const YaleContract = getContract(
-            web3reactContext.library,
-            web3reactContext.account
-          );
+        if(web3reactContext.account != undefined) {
+            const YaleContract = getContract(
+                web3reactContext.library,
+                web3reactContext.account
+            );
           
-          if(web3reactContext.account != undefined) { 
+           
             if (mintable > 0) {
                 try {
                     let mint = await YaleContract.mintCoin();
@@ -39,7 +40,7 @@ function SideNav({ page, image, balance, rate, mintable, init}) {
 
     
     return (
-        <div className="flex flex-col items-center hidden h-screen md:flex w-[250px] md:min-w-[250px] lg:min-w-[250px] fixed top-0 gap-2 shadow-2xl bg-gradient-to-b from-[#272727] to-[#797979] outline outline-white outline-[5px]">
+        <div className="hidden md:flex flex-col h-screen items-center w-[250px] md:min-w-[250px] fixed gap-2 shadow-2xl bg-gradient-to-b from-[#272727] to-[#797979] outline outline-white outline-[5px]">
             <div className="fixed top-[2%]">
                 <Link data-testid="return-home" href="/">
                         <h2 data-testid="IdleIvy" className="text-white font-semibold text-[60px]">
@@ -66,17 +67,39 @@ function SideNav({ page, image, balance, rate, mintable, init}) {
                     </h2>
                     <h3 className={`text-xl text-white`}>{rate} tokens/min</h3>
                 </div>
+                {web3reactContext.account ?
+                    <>
+                    {user['resets'] > 0 ?
+                        <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+                            onClick={mint}> 
+                            <div className="flex flex-col items-center">
+                                <h2 className={`text-2xl text-white`}>
+                                    Mint:
+                                </h2>
+                                <h3 className={`text-xl text-white`}>{mintable/10}</h3>
+                            </div>
+                        </button>
+                    :
+                        <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+                            onClick={joinGame}> 
+                            <div className="flex flex-col items-center">
+                                <h2 className={`text-2xl text-white`}>
+                                    Join Game!
+                                </h2>
+                            </div>
+                        </button>
+                    }
+                    </>
+                    :
+                    <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"> 
+                        <div className="flex flex-col items-center">
+                            <h2 className={`text-2xl text-white`}>
+                                Connect Wallet!
+                            </h2>
+                        </div>
+                    </button>
+                }
 
-
-                <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
-                    onClick={mint}> 
-                    <div className="flex flex-col items-center">
-                        <h2 className={`text-2xl text-white`}>
-                            Mint:
-                        </h2>
-                        <h3 className={`text-xl text-white`}>{mintable/10}</h3>
-                    </div>
-                </button>
             </div>
 
             <div className="fixed top-[80%]">

@@ -585,6 +585,7 @@
 			"stateMutability": "view",
 			"type": "function"
 		}
+	
 	]
   }
   
