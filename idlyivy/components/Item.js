@@ -14,17 +14,33 @@ function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
   const [busiCost, setBusiCost] = useState(2)
   
   useEffect(() => {
-    
+    // setShowModal(true)
+    init();
+    if (window.ethereum) {
+        window.ethereum.on("accountsChanged", function (accounts) {
+            reload();
+        });
+        init();
+    } else {
+        init();
+    }
+}, []);
+  
+  
+  useEffect(() => {
     loadBusi()
   });
 
   async function loadBusi() {
-    const YaleContract = getContract(
-      web3reactContext.library,
-      web3reactContext.account
-    );
+    //console.log("Busi: ", busiNum)
+    if(web3reactContext.account != undefined && user['resets'] != 0) {
+
+      const YaleContract = getContract(
+        web3reactContext.library,
+        web3reactContext.account
+      );
     
-    if(web3reactContext.account != undefined) { 
+     
       if (busi['time'] != 0) {
         var tmpCost = parseInt(await YaleContract.upgradeMultCost(busiNum))
         setCost(tmpCost)

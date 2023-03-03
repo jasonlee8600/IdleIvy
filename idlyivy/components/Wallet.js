@@ -146,7 +146,7 @@ export default function Wallet({ init, reload }) {
                                             src="drop.png"
                                         ></img>
                                     )}
-                                </div>
+                                </div> 
                             </button>
                         </div>
                         {open ? (
@@ -155,7 +155,7 @@ export default function Wallet({ init, reload }) {
                                     <div className="justify-center items-center bg-white hover:bg-[#AD5FDD] hidden sm:flex">
                                         <button
                                             onClick={connectMetamaskSimple}
-                                            className="w-3/4 h-fit  hover:text-white text-lg text-start  mt-1 p-4"
+                                            className="w-3/4 h-fit  hover:text-white text-lg text-start text-black mt-1 p-4"
                                         >
                                             {" "}
                                             MetaMask
@@ -171,7 +171,7 @@ export default function Wallet({ init, reload }) {
                                     <div className="flex justify-center items-center bg-white hover:bg-[#AD5FDD] ">
                                         <button
                                             onClick={handleConnect}
-                                            className="w-3/4 h-fit  hover:text-white text-lg text-start p-4"
+                                            className="w-3/4 h-fit  hover:text-white text-lg text-start text-black p-4"
                                         >
                                             Wallet Connect
                                         </button>
@@ -183,7 +183,7 @@ export default function Wallet({ init, reload }) {
                                  
                                     <button
                                         onClick={disconnectMetamaskSimple}
-                                        className="w-full h-fit bg-white hover:bg-[#AD5FDD] text-lg hover:text-white text-start  p-4 "
+                                        className="w-full h-fit bg-white hover:bg-[#AD5FDD] text-lg hover:text-white text-start text-black p-4 "
                                     >
                                         Disconnect / Clear Cache
                                     </button>
@@ -225,14 +225,14 @@ export default function Wallet({ init, reload }) {
                             <div className=" relative md:absolute w-full rounded overflow-hidden shadow-lg  mt-1">
                               
                                     <Link href="https://etherscan.io/token/0xb5588C411ba0bb7D38865fdC51D082d004e519F7">
-                                        <div className="w-full h-fit bg-white hover:bg-[#AD5FDD]  hover:text-white   p-4 ">
+                                        <div className="w-full h-fit bg-white hover:bg-[#AD5FDD]  hover:text-white text-black  p-4 ">
                                             <h2 className="text-[17px]">
                                                 Token Address
                                             </h2>
                                         </div>
                                     </Link>
 									<Link href="https://etherscan.io/address/0xb5588C411ba0bb7D38865fdC51D082d004e519F7">
-                                        <div className="w-full h-fit bg-white hover:bg-[#AD5FDD]  hover:text-white   p-4 ">
+                                        <div className="w-full h-fit bg-white hover:bg-[#AD5FDD]  hover:text-white  text-black p-4 ">
                                             <h2 className="text-[17px]">
                                                 Contract Address
                                             </h2>
@@ -244,7 +244,7 @@ export default function Wallet({ init, reload }) {
                                     <button
                                         type="button"
                                         onClick={disconnectMetamaskSimple}
-                                        className="w-full h-fit bg-white hover:bg-[#AD5FDD] text-lg hover:text-white text-start  p-4 "
+                                        className="w-full h-fit bg-white hover:bg-[#AD5FDD] text-lg hover:text-white text-start text-black p-4 "
                                     >
                                         Disconnect Wallet
                                     </button>

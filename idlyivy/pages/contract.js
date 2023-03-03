@@ -12,6 +12,8 @@ import { getContract } from "../conect/yaleContract";
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import Wallet from '@/components/Wallet'
+import TopNav from '@/components/TopNav'
+import TopInfo from '@/components/TopInfo'
 
 
 export default function Contract() {
@@ -157,6 +159,37 @@ export default function Contract() {
       console.log(error)
     }
 }
+
+async function mint() {
+
+  const YaleContract = getContract(
+      web3reactContext.library,
+      web3reactContext.account
+    );
+    
+    if(web3reactContext.account != undefined) { 
+      if (mintable > 0) {
+          try {
+              let mint = await YaleContract.mintCoin();
+      
+              await mint.wait();
+      
+              init();
+              }
+          catch (error) {
+              console.log(error)
+          }
+      }
+      else {
+          console.log("Nothing to mint")
+      }
+      
+  }
+  else {
+      console.log("Not connected")
+  }
+      
+}
     
     
 
@@ -177,41 +210,34 @@ export default function Contract() {
         <div className='flex flex-row justify-between'>
           <SideNav page="Yale" image={"../yalelogo.svg"} balance={balance} rate={rate} mintable={mintable} init={init}></SideNav>
           
-          <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px] pt-8">
+          <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px]">
             
-            <Wallet {...{ init, reload }}></Wallet>
-            
-            <h1 className='text-white text-4xl text-center'>Yale Idle Token</h1>
-            <h2 className='text-white text-2xl text-center py-4'>Balance: {balance / 10}</h2>
-            <h2 className='text-white text-2xl text-center pb-8'>Mintable: {mintable / 10}</h2>
-            
-            {busiStats[0]['time'] ?
-              <h2 className='text-white text-xl text-center'>Rate: {rate} tokens / min</h2>
-            :
-            <>
-              {web3reactContext.account != undefined ?
-              <button className='bg-[#dadada] w-1/3 self-center rounded-md text-black text-xl text-center p-4' onClick={joinGame}>Join game!</button>
-              :
-              <h2 className='text-white text-xl text-center'>Connect Wallet Above!</h2>
-              }
-            </>
-            }
+            <TopNav title="Yale" init={init} reload={reload}></TopNav>
+            <TopInfo
+              title="Yale" balance={balance} mintable={mintable} busiStats={busiStats} 
+              joinGame={joinGame} rate={rate} mint={mint}>
+            </TopInfo>
+
             <div className="flex flex-col w-full gap-[75px] py-16">
               <Item 
                 title="Buttery" desc="For students who don't sleep" image={buttery} 
                 busi={busiStats[0]} busiNum={0} init={init} balance={balance} user={userStats}>
+                web3reactContext={web3reactContext}
               </Item>
               <Item 
                 title="Sterling Library" desc="For students who want to sleep" image={sterling} 
                 busi={busiStats[1]} busiNum={1} init={init} balance={balance} user={userStats}>
+                web3reactContext={web3reactContext}
               </Item>
               <Item 
                 title="Yale Bowl" desc="For students that don't study" image={yaleBowl} 
                 busi={busiStats[2]} busiNum={2} init={init} balance={balance} user={userStats}>
+                web3reactContext={web3reactContext}
               </Item>
               <Item
                 title="Handsome Dan" desc="For all students" image={handsomeDan} 
                 busi={busiStats[3]} busiNum={3} init={init} balance={balance} user={userStats}>
+                web3reactContext={web3reactContext}
               </Item>
             </div>
           </div>
@@ -222,7 +248,7 @@ export default function Contract() {
       :
       <>
       
-      <Wallet {...{ init, reload }}></Wallet>
+      <TopNav title="Yale" init={init} reload={reload}></TopNav>
       <a>Something went wrong</a>
 
       </>
