@@ -128,17 +128,38 @@ export default function Contract() {
         If tmpRate > 0:
           query DB looking for address
 
-          if in DB:
+          if in DB (LEN OF RETURNED OBJECT > 0)
             get nickname
             update rate if stored rate is different than tmpRate
 
-          else:
+          else (LEN OF RETURNED OBJECT == 0)
             this is them joining the game so,
+            NEWUSER api call
             create new DB entry with their address, nickname, and tmpRate
         Else
           nothing, they haven't joined the game yet
 
         */
+
+      if (tmpRate > 0){
+          
+        //THIS DOESN'T WORK YET, JUST LEAVE FOR NOW
+        
+        useEffect(() => {
+          // POST request using fetch inside useEffect React hook
+          const requestOptions = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ address: web3reactContext.account })
+          };
+          fetch('http://localhost:3001/checkUser', requestOptions)
+              .then(response => response.json())
+              .then(data => setPostId(data.id));
+      
+          // empty dependency array means this effect will only run once (like componentDidMount in classes)
+          }, []);
+
+      }
 
 
         setBusiStats(busiData)

@@ -22,6 +22,35 @@ results = cursor.fetchall()
 
 print((results))
 
+
+#returns user info if the user exists
+@app.route("/checkUser", methods=['POST'])
+def checkUser():
+    if request.method == 'POST':
+
+        adr = request.form['address']
+
+        cursor.execute('SELECT * FROM users WHERE address = ?', (adr))
+        results = cursor.fetchall()
+
+        return json.dumps(results)
+
+    else:
+        return 'ERROR(TODO)'
+    
+
+@app.route('/newUser', methods=['POST'])
+def newUser():
+    if request.method == 'POST':
+
+        adr = request.form['address']
+        nick = request.form['nickname']
+
+        cursor.execute('INSERT INTO users (nickname, address, rate) VALUES (?, ?, 1)', (nick, adr))
+
+    return 0;
+
+
 @app.route("/getLB", methods=['GET'])
 def leaderboard():
 
