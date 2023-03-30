@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
 
-function SideNav({ page, image, balance, rate, mintable, init, joinGame, user}) {
+function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, payToEarn}) {
     
     const web3reactContext = useWeb3React();
 
@@ -70,6 +70,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user}) 
                 {web3reactContext.account ?
                     <>
                     {user['resets'] > 0 ?
+                    <>
                         <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
                             onClick={mint}> 
                             <div className="flex flex-col items-center">
@@ -79,6 +80,16 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user}) 
                                 <h3 className={`text-xl text-white`}>{mintable/10}</h3>
                             </div>
                         </button>
+
+                        <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+                            onClick={payToEarn}> 
+                            <div className="flex flex-col items-center">
+                                <h2 className={`text-2xl text-white`}>
+                                    Pay
+                                </h2>
+                            </div>
+                        </button>
+                    </>
                     :
                         <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
                             onClick={joinGame}> 

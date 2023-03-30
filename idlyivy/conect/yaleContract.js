@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 import Yale from '../conect/Yale.json' 
 
-export const contractAddress = '0x567Bb784fAA71F50081437804A031e350047B1F8';
+export const contractAddress = '0x926398b482685F327f7fCcFa9d6529D7bDcCF476';
 
 export const getContract = (library, account) => {
 	const signer = library.getSigner(account).connectUnchecked();
@@ -9,4 +9,3 @@ export const getContract = (library, account) => {
 	return contract;
 };
 
- 

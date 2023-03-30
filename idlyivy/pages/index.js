@@ -18,8 +18,8 @@ export default function Home() {
       <div className='flex flex-col bg-white h-screen justify-center'>
         
         
-        {/*<Link className='text-[#0000FF] self-center' href={"./yale"}>Yale Page</Link>*/}
-        <h2 className='text-[#2222DD]'>Join Game!</h2>
+        <Link className='text-[#0000FF] self-center' href={"./contract"}>Yale Page</Link>
+        
 
 
       </div>
