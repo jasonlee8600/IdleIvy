@@ -81,14 +81,14 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                             </div>
                         </button>
 
-                        <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+                        {/*<button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
                             onClick={payToEarn}> 
                             <div className="flex flex-col items-center">
                                 <h2 className={`text-2xl text-white`}>
                                     Pay
                                 </h2>
                             </div>
-                        </button>
+                </button>*/}
                     </>
                     :
                         <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
