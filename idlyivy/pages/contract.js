@@ -263,7 +263,7 @@ async function payToEarn() {
             user={userStats} payToEarn={payToEarn}>
           </SideNav>
           
-          <div className="flex flex-col w-full h-fit bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px]">
+          <div className="flex flex-col w-full h-screen bg-[url('../public/yalebg.jpeg')] bg-cover md:ml-[250px]">
             
             <TopNav title="Yale" init={init} reload={reload}></TopNav>
             <TopInfo
