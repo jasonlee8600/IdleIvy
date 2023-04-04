@@ -144,11 +144,13 @@ async function unlockBusi() {
                     :
                       <button type="button" className="self-start z-10 bg-[#202B64] h-[90px] w-1/4 rounded-full outline outline-white outline-[4px] text-2xl text-white"
                         onClick={unlockBusi}>
-                          Buy
                           {busiCost != 2 ?
-                            <h3 className="text-xl">Cost: {busiCost/10}</h3>
+                            <div>
+                              <h3>Buy</h3>
+                              <h3 className="text-xl">Cost: {busiCost/10}</h3>
+                            </div>
                           : 
-                            <></>
+                            <h3>Locked</h3>
                           }
                       </button>
                     }
