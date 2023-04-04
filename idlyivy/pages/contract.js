@@ -274,7 +274,7 @@ async function payToEarn() {
               joinGame={joinGame} rate={rate} mint={mint} payToEarn={payToEarn}>
             </TopInfo>
 
-            <div className="flex flex-col w-full gap-[75px] mt-16 2xl:gap-[100px] mt-20">
+            <div className="flex flex-col w-full gap-[75px] mt-14 2xl:gap-[100px]">
               <Item 
                 title="Buttery" desc="For students who don't sleep" image={buttery} 
                 busi={busiStats[0]} busiNum={0} init={init} balance={balance} user={userStats}>
