@@ -40,8 +40,8 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
 
     
     return (
-        <div className="hidden md:flex flex-col items-center w-[250px] md:min-w-[250px] h-full bg-gradient-to-b from-[#272727] to-[#797979] gap-[35px] 2xl:h-screen gap-[60px]">
-            <div className="mt-[25px]">
+        <div className="hidden md:flex flex-col items-center w-[250px] min-w-[250px] h-full bg-gradient-to-b from-[#272727] to-[#797979] gap-[30px] 2xl:gap-[60px] h-screen">
+            <div className="mt-[30px]">
                 <Link data-testid="return-home" href="/">
                         <h2 data-testid="IdleIvy" className="text-white font-semibold text-[60px]">
                             IdleIvy
@@ -50,11 +50,11 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
             </div>
 
             <div className="">
-                <img className="mt=[20px]" src={image}></img>
+                <img className="mt=[0px]" src={image}></img>
             </div>
 
             <div className="">
-                <div className="flex flex-col items-center mt-[20px]">
+                <div className="flex flex-col items-center mt-[0px]">
                     <h2 className={`text-3xl text-white`}>
                         Balance:
                     </h2>
@@ -73,7 +73,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                     <>
                     {user['resets'] > 0 ?
                     <>
-                        <button type="button" className="bg-[#202B64] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+                        <button type="button" className="bg-[#202B64] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px] my-[10px]"
                             onClick={mint}> 
                             <div className="flex flex-col items-center">
                                 <h2 className={`text-2xl text-white`}>
@@ -115,7 +115,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
 
             </div>
 
-            <div className="mb-[25px]">
+            <div className="mb-[70px]">
                 <div className="flex flex-col items-center">
                     <h2 className="text-white font-semibold text-[30px]">
                         Leaderboard
