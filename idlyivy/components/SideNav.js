@@ -115,7 +115,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
 
             </div>
 
-            <div className="mb-[20px]">
+            <div className="mb-[25px]">
                 <div className="flex flex-col items-center">
                     <h2 className="text-white font-semibold text-[30px]">
                         Leaderboard
