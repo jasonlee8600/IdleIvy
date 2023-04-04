@@ -40,8 +40,8 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
 
     
     return (
-        <div className="hidden md:flex flex-col h-screen items-center w-[250px] md:min-w-[250px] fixed gap-2 shadow-2xl bg-gradient-to-b from-[#272727] to-[#797979] outline outline-white outline-[5px]">
-            <div className="fixed top-[2%]">
+        <div className="hidden md:flex flex-col items-center w-[250px] md:min-w-[250px] h-full bg-gradient-to-b from-[#272727] to-[#797979] gap-[35px] 2xl:h-screen gap-[60px]">
+            <div className="mt-[25px]">
                 <Link data-testid="return-home" href="/">
                         <h2 data-testid="IdleIvy" className="text-white font-semibold text-[60px]">
                             IdleIvy
@@ -49,29 +49,31 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                 </Link>
             </div>
 
-            <div className="fixed top-[15%]">
+            <div className="">
                 <img className="mt=[20px]" src={image}></img>
             </div>
 
-            <div className="fixed top-[35%]">
+            <div className="">
                 <div className="flex flex-col items-center mt-[20px]">
-                    <h2 className={`text-4xl text-white`}>
+                    <h2 className={`text-3xl text-white`}>
                         Balance:
                     </h2>
                     <h3 className={`text-2xl text-white`}>{balance/10}</h3>
                 </div>
 
                 <div className="flex flex-col items-center mt-[25px]">
-                    <h2 className={`text-2xl text-white`}>
+                    <h2 className={`text-3xl text-white`}>
                         Rate:
                     </h2>
-                    <h3 className={`text-xl text-white`}>{rate} tokens/min</h3>
+                    <h3 className={`text-2xl text-white`}>{rate} tokens/min</h3>
                 </div>
+            </div>
+            <div>
                 {web3reactContext.account ?
                     <>
                     {user['resets'] > 0 ?
                     <>
-                        <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+                        <button type="button" className="bg-[#202B64] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
                             onClick={mint}> 
                             <div className="flex flex-col items-center">
                                 <h2 className={`text-2xl text-white`}>
@@ -91,7 +93,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                 </button>*/}
                     </>
                     :
-                        <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+                        <button type="button" className="bg-[#202B64] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
                             onClick={joinGame}> 
                             <div className="flex flex-col items-center">
                                 <h2 className={`text-2xl text-white`}>
@@ -102,7 +104,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                     }
                     </>
                     :
-                    <button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"> 
+                    <button type="button" className="bg-[#202B64] w-40 px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"> 
                         <div className="flex flex-col items-center">
                             <h2 className={`text-2xl text-white`}>
                                 Connect Wallet!
@@ -113,7 +115,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
 
             </div>
 
-            <div className="fixed top-[80%]">
+            <div className="mb-[20px]">
                 <div className="flex flex-col items-center">
                     <h2 className="text-white font-semibold text-[30px]">
                         Leaderboard
