@@ -1,3 +1,5 @@
+README WILL BE COMPLETED BY WEDNESDAY 4/19 WITH PERMISSION FROM THE INSTRUCTOR
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
