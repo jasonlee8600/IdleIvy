@@ -12,12 +12,12 @@ db = mysql.connector.connect(
         host=keys.adr,
         user='root',
         password=keys.pw,
-        database='Users'
+        database='users'
     )
 
 cursor = db.cursor(dictionary=True)
 
-cursor.execute('SELECT * FROM users')
+cursor.execute('SELECT * FROM players')
 results = cursor.fetchall()
 
 print((results))
@@ -28,10 +28,16 @@ print((results))
 def checkUser():
     if request.method == 'POST':
 
-        adr = request.form['address']
+        print("THE DATA IS")
+        print(request.get_json())
 
-        cursor.execute('SELECT * FROM users WHERE address = ?', (adr))
+        adr = request.get_json()['address']
+
+
+        cursor.execute('SELECT * FROM players WHERE address = %s', [adr])
         results = cursor.fetchall()
+
+        print(results)
 
         return json.dumps(results)
 
@@ -43,19 +49,37 @@ def checkUser():
 def newUser():
     if request.method == 'POST':
 
-        adr = request.form['address']
-        nick = request.form['nickname']
+        adr = request.get_json()['address']
+        nick = request.get_json()['nickname']
 
-        cursor.execute('INSERT INTO users (nickname, address, rate) VALUES (?, ?, 1)', (nick, adr))
 
-    return 0;
+        cursor.execute('INSERT INTO players (nickname, address, rate) VALUES (%s, %s, 1)', (nick, adr))
+        db.commit()
+        print('new user added')
+
+    return {};
+
+
+@app.route('/updateUser', methods=['POST'])
+def updateUser():
+    if request.method == 'POST':
+
+        adr = request.get_json()['address']
+        rate = request.get_json()['rate']
+
+        cursor.execute('UPDATE players SET rate = %s WHERE address = %s', ((rate), adr))
+        db.commit()
+        print('updated user')
+
+    #TODO: add possible error info here
+    return {};
 
 
 @app.route("/getLB", methods=['GET'])
 def leaderboard():
 
     if request.method == 'GET':
-        cursor.execute('SELECT rate,nickname FROM users ORDER BY rate DESC LIMIT 10')
+        cursor.execute('SELECT rate,nickname FROM players ORDER BY rate DESC LIMIT 10')
 
         results = cursor.fetchall()
         
