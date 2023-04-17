@@ -25,7 +25,7 @@ export default function Leaderboard() {
        return (
                 
                 
-            <div className="flex flex-col w-4/5 h-fit bg-gradient-to-b from-[#272727] to-[#797979] self-center items-center outline outline-white outline-[4px]">  
+            <div className="flex flex-col w-4/5 h-fit bg-gradient-to-b from-[#272727] to-[#797979] self-center items-center border-[5px] border-white">  
                 <LBHeader></LBHeader>
                 
                 <LBList leaders={top10list}></LBList>
