@@ -36,6 +36,8 @@ def checkUser():
 
         cursor.execute('SELECT * FROM players WHERE address = %s', [adr])
         results = cursor.fetchall()
+        db.commit()
+
 
         print(results)
 
@@ -82,8 +84,8 @@ def leaderboard():
         cursor.execute('SELECT rate,nickname FROM players ORDER BY rate DESC LIMIT 10')
 
         results = cursor.fetchall()
+        db.commit()
         
-    
         return json.dumps(results)
     
     return "INVALID(TODO)"
