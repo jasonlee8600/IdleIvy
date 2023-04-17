@@ -7,7 +7,7 @@ If you want to start working, make sure you pull any changes team members made
         - git pull
 
 If you want to work in your own branch, then after pulling into main
-    - git switch BranchNamea
+    - git switch BranchName
     - git merge main
 
 If the changes you made are in main, push when you are done working

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
 
+
 function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, payToEarn}) {
     
     const web3reactContext = useWeb3React();
