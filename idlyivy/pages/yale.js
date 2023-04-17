@@ -14,6 +14,7 @@ import { useWeb3React } from "@web3-react/core";
 import Wallet from '@/components/Wallet'
 import TopNav from '@/components/TopNav'
 import TopInfo from '@/components/TopInfo'
+import {getUser , newUser, updateUser} from './apicalls.js'
 
 
 export default function Contract() {
@@ -141,25 +142,50 @@ export default function Contract() {
 
         */
 
+      //TODO: Implement api call functionality updating/checking database
+      //Need to add .then error checks/console logs to make sure everything works
+    //use useEffect here? It doesn't work when i try to do it //TF
+    // useEffect(() => {
       if (tmpRate > 0){
-          
-        //THIS DOESN'T WORK YET, JUST LEAVE FOR NOW
-        
-        useEffect(() => {
-          // POST request using fetch inside useEffect React hook
-          const requestOptions = {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ address: web3reactContext.account })
-          };
-          fetch('http://localhost:3001/checkUser', requestOptions)
-              .then(response => response.json())
-              .then(data => setPostId(data.id));
-      
-          // empty dependency array means this effect will only run once (like componentDidMount in classes)
-          }, []);
+                  
+        //check database for this user
+        getUser(web3reactContext.account).then(userInfo => {
 
-      }
+        console.log(userInfo)
+
+
+        //if no such user exists
+        if (userInfo.length == 0)
+        {
+          //NEWUSER API CALL
+          newUser(web3reactContext.account, 'FAKENICK');
+          //add error checking here
+
+        }
+        //
+        else if (userInfo.length == 1)
+        {
+          //get nickname
+          //if tmprate is diff than user rate then update
+          console.log(userInfo[0].rate)
+          if (tmpRate > userInfo[0].rate)
+          {
+            console.log('updating')
+            //same here, add error checking in future
+            updateUser(web3reactContext.account, tmpRate);
+          }
+        }
+        //more than two entries with the same address exist, something is wrong
+        else
+        {
+          console.log('error, several entries for same address')
+          //add code here to fix issue, maybe remove then add new user with correct data?
+        }
+      })
+    }
+
+    //if tmprate isnt greater than 1 then user is not connected, do nothing
+  // });
 
 
         setBusiStats(busiData)

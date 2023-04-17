@@ -14,6 +14,8 @@ import { useWeb3React } from "@web3-react/core";
 import Wallet from '@/components/Wallet'
 import TopNav from '@/components/TopNav'
 import TopInfo from '@/components/TopInfo'
+import {getUser , newUser, updateUser} from './apicalls.js'
+
 
 
 export default function Contract() {
@@ -116,6 +118,76 @@ export default function Contract() {
         console.log("Hitting here")
         setBalance(balance)
         setRate(tmpRate)
+
+
+
+        /*YOUR CODE HERE
+        This is where we get a connected users info on page load/init
+        Have their address stored in web3reactContext.account
+        Have their current rate stored in tmpRate
+
+        If you want to check if they've started the game, just make sure tmpRate > 0
+
+        If tmpRate > 0:
+          query DB looking for address
+
+          if in DB (LEN OF RETURNED OBJECT > 0)
+            get nickname
+            update rate if stored rate is different than tmpRate
+
+          else (LEN OF RETURNED OBJECT == 0)
+            this is them joining the game so,
+            NEWUSER api call
+            create new DB entry with their address, nickname, and tmpRate
+        Else
+          nothing, they haven't joined the game yet
+
+        */
+
+      //TODO: Implement api call functionality updating/checking database
+      //Need to add .then error checks/console logs to make sure everything works
+      //use useEffect here? It doesn't work when i try to do it //TF
+      // useEffect(() => {
+      if (tmpRate > 0){
+                  
+        //check database for this user
+        getUser(web3reactContext.account).then(userInfo => {
+
+        console.log(userInfo)
+
+
+        //if no such user exists
+        if (userInfo.length == 0)
+        {
+          //NEWUSER API CALL
+          //need to add something that asks for their desired nickname
+          newUser(web3reactContext.account, 'FAKENICK');
+          //add error checking here
+
+        }
+        //
+        else if (userInfo.length == 1)
+        {
+          //get nickname
+          //if tmprate is diff than user rate then update
+          console.log(userInfo[0].rate)
+          if (tmpRate > userInfo[0].rate)
+          {
+            console.log('updating')
+            //same here, add error checking in future
+            updateUser(web3reactContext.account, tmpRate);
+          }
+        }
+        //more than two entries with the same address exist, something is wrong
+        else
+        {
+          console.log('error, several entries for same address')
+          //add code here to fix issue, maybe remove then add new user with correct data?
+        }
+      })
+    }
+
+
         setBusiStats(busiData)
         setUserStats(userData)
 				setLoaded(true)
