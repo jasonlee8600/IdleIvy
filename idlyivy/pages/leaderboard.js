@@ -24,6 +24,11 @@ export default function YaleLeaderboard() {
     
       <div className="flex flex-col w-full h-screen bg-[url('../public/yalebg.jpeg')] bg-cover">
         <Link href="./contract" className='font-display text-[30px] text-white mt-[20px] mb-[30px] ml-[20px]'>Back</Link>
+        <div className='self-center mb-[10px]'>
+          <h2 className="font-display text-white font-semibold text-[50px]">
+            Yale Leaderboard
+          </h2>
+        </div>
         <Leaderboard></Leaderboard>
       </div>
       
