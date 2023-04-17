@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer components{
   .btn-nav {
     @apply text-white font-semibold rounded-lg w-48  h-12  bg-[#AD5FDD] hover:bg-[#a74fde] border-black flex justify-center items-center p-2 ;

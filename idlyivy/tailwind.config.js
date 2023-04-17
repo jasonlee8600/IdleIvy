@@ -6,6 +6,9 @@ module.exports = {
 	],
 	theme: {
 	  extend: {},
+	  fontFamily: {
+		display: ['Goldman', 'cursive']
+	  },
 	},
 	plugins: [],
   }

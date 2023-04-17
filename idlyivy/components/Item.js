@@ -128,27 +128,29 @@ async function unlockBusi() {
   
   return (
 
-            <div className='flex flex-row ml-[25px]'>
-              <Image alt="Buttery" src={image} width={90} height="auto" className="rounded-full outline outline-white outline-[4px]"></Image>
+            <div className='flex flex-row ml-[100px]'>
+              <Image alt="Buttery" src={image} width={150} height={90} className="rounded-full outline outline-white outline-[4px]"></Image>
               
-              <div className='flex flex-row w-full pl-4'>
+              <div className='flex flex-row w-full pl-12'>
                 
                 <div className='flex flex-row z-0 bg-gradient-to-b from-[#272727] to-[#797979] h-[90px] w-5/6 rounded-full outline outline-white outline-[4px]'>
                   
                     {busi['time'] != 0 ?
-                      <button type="button" className="self-start z-10 bg-[#202B64] h-[90px] w-1/4 rounded-full outline outline-white outline-[4px] text-xl text-white"
+                      <button type="button" className="self-start z-10 bg-[#202B64] h-[90px] w-1/4 rounded-full outline outline-white outline-[4px] text-2xl text-white"
                         onClick={upgradeMult}>
-                          Upgrade
-                        <h3>Cost: {cost/10}</h3> 
+                          Buy
+                        <h3 className="text-xl">Cost: {cost/10}</h3> 
                       </button>
                     :
-                      <button type="button" className="self-start z-10 bg-[#202B64] h-[90px] w-1/4 rounded-full outline outline-white outline-[4px] text-xl text-white"
+                      <button type="button" className="self-start z-10 bg-[#202B64] h-[90px] w-1/4 rounded-full outline outline-white outline-[4px] text-2xl text-white"
                         onClick={unlockBusi}>
-                          Buy
                           {busiCost != 2 ?
-                            <h3>Cost: {busiCost/10}</h3>
+                            <div>
+                              <h3>Buy</h3>
+                              <h3 className="text-xl">Cost: {busiCost/10}</h3>
+                            </div>
                           : 
-                            <></>
+                            <h3>Locked</h3>
                           }
                       </button>
                     }

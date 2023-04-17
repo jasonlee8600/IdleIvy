@@ -12,6 +12,7 @@ export default function Wallet({ init, reload }) {
     const chain = {
         1: "Ethereum",
         941: "PulseChain",
+        942: "PulseChain"
     };
 
     const [open, setOpen] = useState(false);

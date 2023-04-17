@@ -7,7 +7,7 @@ function TopInfo({ title, init, reload }) {
   
   return (
 
-            <div className="flex flex-row md:justify-end justify-between sticky top-0  min-h-[60px] w-full bg-gradient-to-r from-[#272727] to-[#797979] z-20 md:border-l-[5px] border-white border-b-[5px]">
+            <div className="flex flex-row md:justify-end justify-between sticky top-0  min-h-[75px] w-full z-20 md:border-l-[0px]">
               <div className="md:hidden flex flex-col pl-4 py-4 justify-between">
                 <Link data-testid="return-home" href="/">
                         <h2 data-testid="IdleIvy" className="text-white font-semibold text-2xl">
