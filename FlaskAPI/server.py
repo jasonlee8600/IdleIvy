@@ -8,19 +8,25 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-db = mysql.connector.connect(
+def dbconnect():
+    db = mysql.connector.connect(
         host=keys.adr,
         user='root',
         password=keys.pw,
         database='users'
     )
 
-cursor = db.cursor(dictionary=True)
+    cursor = db.cursor(dictionary=True)
 
-cursor.execute('SELECT * FROM players')
-results = cursor.fetchall()
+    return (db, cursor)
 
-print((results))
+def dbclose(db, cursor):
+    cursor.close()
+    db.close()
+
+
+
+
 
 
 #returns user info if the user exists
@@ -28,15 +34,17 @@ print((results))
 def checkUser():
     if request.method == 'POST':
 
-        print("THE DATA IS")
         print(request.get_json())
+
+        db, cursor = dbconnect()
 
         adr = request.get_json()['address']
 
-
-        cursor.execute('SELECT * FROM players WHERE address = %s', [adr])
+        cursor.execute('SELECT * FROM players WHERE address = %s;', [adr])
         results = cursor.fetchall()
+
         db.commit()
+        dbclose(db, cursor)
 
 
         print(results)
@@ -54,9 +62,14 @@ def newUser():
         adr = request.get_json()['address']
         nick = request.get_json()['nickname']
 
+        db, cursor = dbconnect()
+
 
         cursor.execute('INSERT INTO players (nickname, address, rate) VALUES (%s, %s, 1)', (nick, adr))
+
         db.commit()
+        dbconnect(db, cursor)
+
         print('new user added')
 
     return {};
@@ -69,8 +82,13 @@ def updateUser():
         adr = request.get_json()['address']
         rate = request.get_json()['rate']
 
+        db, cursor = dbconnect()
+
         cursor.execute('UPDATE players SET rate = %s WHERE address = %s', ((rate), adr))
+
         db.commit()
+        dbclose(db, cursor)
+
         print('updated user')
 
     #TODO: add possible error info here
@@ -81,10 +99,15 @@ def updateUser():
 def leaderboard():
 
     if request.method == 'GET':
+
+        db, cursor = dbconnect()
+
         cursor.execute('SELECT rate,nickname FROM players ORDER BY rate DESC LIMIT 10')
 
         results = cursor.fetchall()
+
         db.commit()
+        dbclose(db, cursor)
         
         return json.dumps(results)
     
