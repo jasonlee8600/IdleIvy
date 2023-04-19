@@ -12,6 +12,13 @@ WHAT TO INSTALL HERE (requirements.txt) AND HOW TO DEPLOY
 MAYBE INCLUDE METAMASK SETUP HERE TOO
 ## Run Frontend
 ## Run Backend
+To set up the Flask server locally, follow these steps:
+1. Install homebrew if you do not have it already - https://docs.brew.sh/Installation
+2. Open a new terminal window and cd to /idleivy/flaskAPI
+3. Create a virtual environment - you can do this by running the commands "brew install virtualenv" then "virtualenv testenv" then "source testenv/bin/activate". This will create a virtual environment called virtualenv where you can run the Flask server.
+4. Run "pip3 install -r requirements.txt" to install all required modules.
+5. To run the server locally, run "python server.py".
+
 
 # Testing
 ## Backend Testing
