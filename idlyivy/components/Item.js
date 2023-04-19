@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
@@ -6,33 +5,18 @@ import { useState, useEffect } from "react";
 
 function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
     
-  const [sorry, setSorry] = useState(false)
-  const [connect, setConnect] = useState(false)
-  const [loaded, setLoaded] = useState(false);
+  //Consts for user wallet connection and business info
   const web3reactContext = useWeb3React();
   const [cost, setCost] = useState(2)
   const [busiCost, setBusiCost] = useState(2)
   
   useEffect(() => {
-    // setShowModal(true)
-    init();
-    if (window.ethereum) {
-        window.ethereum.on("accountsChanged", function (accounts) {
-            reload();
-        });
-        init();
-    } else {
-        init();
-    }
-}, []);
-  
-  
-  useEffect(() => {
     loadBusi()
   });
 
+  //Function to set business information for components
   async function loadBusi() {
-    console.log("Busi: ", user['resets'])
+    
     if(web3reactContext.account != undefined && user['resets'] > 0) {
 
       const YaleContract = getContract(
@@ -54,8 +38,7 @@ function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
     }
   }
   
-  
-  
+  //Function to upgrade the business
   async function upgradeMult() {
         
     if(web3reactContext.account != undefined && busi['time'] != 0) {
@@ -81,15 +64,14 @@ function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
       }
       else {
         console.log("Not enough coin")
-        setSorry(true)
       }
     }
     else {
       console.log("Connect wallet or buy business")
-      setConnect(true)
     }
 }
 
+//function to unlock next business
 async function unlockBusi() {
   
   if(web3reactContext.account != undefined && user['resets'] != 0) {
@@ -117,12 +99,10 @@ async function unlockBusi() {
     }
     else {
       console.log("Not enough coin or unlock previous businesses first")
-      setSorry(true)
     }
   }
   else {
     console.log("Connect wallet or join game")
-    setConnect(true)
   }
 }
   

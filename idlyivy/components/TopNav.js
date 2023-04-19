@@ -1,9 +1,7 @@
-import Image from "next/image";
-import { useWeb3React } from "@web3-react/core";
 import Wallet from '@/components/Wallet'
 import Link from "next/link";
 
-function TopInfo({ title, init, reload }) {  
+function TopNav({ init, reload }) {  
   
   return (
 
@@ -28,4 +26,4 @@ function TopInfo({ title, init, reload }) {
             );
         }
 
-export default TopInfo;
+export default TopNav;

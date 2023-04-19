@@ -3,36 +3,46 @@ import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
 
 
-function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, payToEarn}) {
+function SideNav({ image, balance, rate, mintable, init, joinGame, user}) {
     
+    //Wallet and Blockchain info about user
     const web3reactContext = useWeb3React();
 
+    //function to mint the coins for a user
     async function mint() {
 
+        //Check if the user is connected
         if(web3reactContext.account != undefined) {
+            
+            //Instance of smart contract
             const YaleContract = getContract(
                 web3reactContext.library,
                 web3reactContext.account
             );
           
-           
+            //Check if user has tokens to mint
             if (mintable > 0) {
                 try {
+                    //mint function call to contract
                     let mint = await YaleContract.mintCoin();
             
+                    //wait for transaction to complete
                     await mint.wait();
             
                     init();
                     }
                 catch (error) {
+                    //log if some error
                     console.log(error)
                 }
             }
+            //User doesn't have tokens to mint
             else {
                 console.log("Nothing to mint")
             }
             
         }
+        //User isn't connected to the site
         else {
             console.log("Not connected")
         }
@@ -74,6 +84,7 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                     <>
                     {user['resets'] > 0 ?
                     <>
+                        {/*load if user connected and joined game*/}
                         <button type="button" className="bg-[#202B64] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px] my-[10px]"
                             onClick={mint}> 
                             <div className="flex flex-col items-center">
@@ -84,16 +95,10 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                             </div>
                         </button>
 
-                        {/*<button type="button" className="bg-[#202B64] mt-[50px] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
-                            onClick={payToEarn}> 
-                            <div className="flex flex-col items-center">
-                                <h2 className={`text-2xl text-white`}>
-                                    Pay
-                                </h2>
-                            </div>
-                </button>*/}
                     </>
                     :
+                      <> 
+                        {/* Load if user connected but hasn't joined game*/}
                         <button type="button" className="bg-[#202B64] px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
                             onClick={joinGame}> 
                             <div className="flex flex-col items-center">
@@ -102,16 +107,20 @@ function SideNav({ page, image, balance, rate, mintable, init, joinGame, user, p
                                 </h2>
                             </div>
                         </button>
+                      </>
                     }
                     </>
                     :
-                    <button type="button" className="bg-[#202B64] w-40 px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"> 
-                        <div className="flex flex-col items-center">
-                            <h2 className={`text-2xl text-white`}>
-                                Connect Wallet!
-                            </h2>
-                        </div>
-                    </button>
+                    <>
+                        {/* Load if not connected */}
+                        <button type="button" className="bg-[#202B64] w-40 px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"> 
+                            <div className="flex flex-col items-center">
+                                <h2 className={`text-2xl text-white`}>
+                                    Connect Wallet!
+                                </h2>
+                            </div>
+                        </button>
+                    </>
                 }
 
             </div>

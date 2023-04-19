@@ -1,7 +1,6 @@
-import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
 
-function TopInfo({ title, balance, mintable, busiStats, joinGame, rate, mint }) {
+function TopInfo({ balance, mintable, busiStats, joinGame, rate, mint }) {
     
   const web3reactContext = useWeb3React();
   
