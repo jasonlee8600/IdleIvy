@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import mysql.connector
 import keys
 import json
@@ -49,7 +49,7 @@ def checkUser():
         db.commit()
         dbclose(db, cursor)
     except:
-        return json.jsonify(error=404, msg = "Unable to query database"), 404
+        return jsonify(error=404, msg = "Unable to query database"), 404
 
     return json.dumps(results), 200
     
@@ -70,7 +70,7 @@ def newUser():
         print('new user added')
 
     except:
-        return json.jsonify(error=404, msg = "Unable to update database"), 404
+        return jsonify(error=404, msg = "Unable to update database"), 404
 
     return {},200
 
@@ -92,7 +92,7 @@ def updateUser():
         print('updated user')
 
     except:
-        return json.jsonify(error=404, msg = "Unable to update database"), 404
+        return jsonify(error=404, msg = "Unable to update database"), 404
 
     return {},200
 
@@ -115,7 +115,7 @@ def leaderboard():
         print('leaderboard fetched')
 
     except:
-        return json.jsonify(error=404, msg = "Unable to query database"), 404
+        return jsonify(error=404, msg = "Unable to query database"), 404
 
     
     return json.dumps(results), 200

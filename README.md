@@ -19,7 +19,7 @@ To set up the Flask server locally, follow these steps:
 ```shell
 brew install virtualenv
 virtualenv testenv
-source testenv/bin/activate".
+source testenv/bin/activate
 ```  
 This will create a virtual environment called virtualenv where you can run the Flask server.
 4. Run "pip3 install -r requirements.txt" to install all required modules.
@@ -28,7 +28,12 @@ This will create a virtual environment called virtualenv where you can run the F
 
 # Testing
 ## Backend Testing
-WRITE ABOUT BACKEND TESTING HERE
+We use pytest to conduct elementary unit tests on our Flask API endpoints. The tests check that each API function is able to run and exit with the correct exit status given the correct form and request type. To run the backend testing, simply use the command
+```shell
+pytest -rm
+```
+From within the FlaskAPI directory.
+
 
 ## Frontend Testing
 
@@ -41,7 +46,7 @@ cd idlyivy/__tests__/frontend_tests
 npm test
 ```
 ## Adding Tests
-HOW TO ADD A TEST FOR CODE REVIEW
+To add a backend test, edit the "test_db.py" file in the FlaskAPI directory. 
 
 # Metrics Milestone
 On the home page (index.js) of our idle game, we have buttons associated with some Ivy League schools (Yale, Harvard, Princeton) that navigate the user to the version of our game that is themed after the selected school. At the time of this milestone, the Yale themed version of the game is the one we have fully implemented, so we tested the Yale button of interest for better conversion performance by changing it to three different colors (blue, white, black).
