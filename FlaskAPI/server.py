@@ -8,6 +8,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+
+#Helper functions for opening/closing connection to database
 def dbconnect():
     db = mysql.connector.connect(
         host=keys.adr,
@@ -28,14 +30,15 @@ def dbclose(db, cursor):
 
 
 
-
 #returns user info if the user exists
 @app.route("/checkUser", methods=['POST'])
 def checkUser():
-    if request.method == 'POST':
 
-        print(request.get_json())
 
+    results = []
+
+    try:
+        #query db for specific user
         db, cursor = dbconnect()
 
         adr = request.get_json()['address']
@@ -45,61 +48,62 @@ def checkUser():
 
         db.commit()
         dbclose(db, cursor)
+    except:
+        return json.jsonify(error=404, msg = "Unable to query database"), 404
 
-
-        print(results)
-
-        return json.dumps(results)
-
-    else:
-        return 'ERROR(TODO)'
+    return json.dumps(results), 200
     
 
+#creates a new rom in the users table if a new user joins the game
 @app.route('/newUser', methods=['POST'])
 def newUser():
-    if request.method == 'POST':
-
+    try:
         adr = request.get_json()['address']
         nick = request.get_json()['nickname']
 
         db, cursor = dbconnect()
-
-
+        #base rate 1, will have custom usernames in future
         cursor.execute('INSERT INTO players (nickname, address, rate) VALUES (%s, %s, 1)', (nick, adr))
 
         db.commit()
-        dbconnect(db, cursor)
-
+        dbclose(db, cursor)
         print('new user added')
 
-    return {};
+    except:
+        return json.jsonify(error=404, msg = "Unable to update database"), 404
+
+    return {},200
 
 
+#updates user's rate in database
 @app.route('/updateUser', methods=['POST'])
 def updateUser():
-    if request.method == 'POST':
 
+    try:
         adr = request.get_json()['address']
         rate = request.get_json()['rate']
 
         db, cursor = dbconnect()
-
+        #find user and set new rate
         cursor.execute('UPDATE players SET rate = %s WHERE address = %s', ((rate), adr))
 
         db.commit()
         dbclose(db, cursor)
-
         print('updated user')
 
-    #TODO: add possible error info here
-    return {};
+    except:
+        return json.jsonify(error=404, msg = "Unable to update database"), 404
+
+    return {},200
 
 
+#fetch top 10 users by rate, return JSON data
 @app.route("/getLB", methods=['GET'])
 def leaderboard():
 
-    if request.method == 'GET':
+    results = None
 
+    try:
         db, cursor = dbconnect()
 
         cursor.execute('SELECT rate,nickname FROM players ORDER BY rate DESC LIMIT 10')
@@ -108,15 +112,19 @@ def leaderboard():
 
         db.commit()
         dbclose(db, cursor)
-        
-        return json.dumps(results)
+        print('leaderboard fetched')
+
+    except:
+        return json.jsonify(error=404, msg = "Unable to query database"), 404
+
     
-    return "INVALID(TODO)"
+    return json.dumps(results), 200
+
 
 
 @app.route("/")
 def index():
-    return "Our flask api server. We will use this in conjuction with a mySQL database to display a leaderboard, as well as potentially develop a notification/email system"
+    return "Our flask api server. We will use this in conjuction with a mySQL database to update and display a leaderboard"
 
 if __name__ == "__main__":
     app.run(port=3001, debug=True)
