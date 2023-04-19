@@ -21,33 +21,32 @@ import {getUser , newUser, updateUser} from './apicalls.js'
 export default function Contract() {
 
     
-    const [balance, setBalance] = useState(1);
-    const [rate, setRate] = useState(1);
+    //State variables for tracking state of user's game
+    //Balance of user's tokens
+    const [balance, setBalance] = useState(0);
+    //Earning rate for user
+    const [rate, setRate] = useState(0);
+    //List of business dicts
     const [busiStats, setBusiStats] = useState([{}]);
+    //Dict of user base stats
     const [userStats, setUserStats] = useState({});
-    const [mintable, setMintable] = useState(1);
+    //Mintable tokens for user
+    const [mintable, setMintable] = useState(0);
+    //If the init loads, this is set to true and the page loads
 	  const [loaded, setLoaded] = useState(false);
+    //Info about user's wallet and general blockchain connection
     const web3reactContext = useWeb3React();
-
-    //console.log("WHat is this: ", web3reactContext)
     
+    //Reload data if anything about user wallet or connection changes
     useEffect(() => {
         
         init();
         
-        if (window.ethereum) {
-            window.ethereum.on("accountsChanged", function (accounts) {
-                reload();
-            });
-            init();
-        } else {
-            init();
-        }
-    }, []);
+    }, [web3reactContext]);
 
+    //Sets new mintable variable every minute, instead of constantly calling contract function
     useEffect(() => {
-      //if (web3reactContext.account != undefined && (userStats['resets'] != undefined && userStats['resets'] != 0)) {
-        //console.log("Hello")
+
         const interval = setInterval(() => {
           setMintable(mintable + (10 * rate));
         }, 60000);
@@ -55,33 +54,36 @@ export default function Contract() {
         return () => {
           clearInterval(interval);
         };
-      //}
    });
 	
-	
+	//initializing page with user data based on wallet address and connection
 	async function init(){
-        console.log("hitting init")
-        console.log("account: ", web3reactContext.account)
+        
 		try {
         
+      //if user is connected to site
       if (web3reactContext.account != undefined) {
 				
+        //instance of smart contract
         const YaleContract = await getContract(
 					web3reactContext.library,
 					web3reactContext.account
 				);
 
-				const balance = parseInt(await YaleContract.balanceOf(web3reactContext.account))
+				//getting token balance for user
+        const balance = parseInt(await YaleContract.balanceOf(web3reactContext.account))
 
+        //initializing user data
         var userData = {baseMult: 0, resets:0, pastDue:0, debt:0}
           
+        //get base user stats from contract and set it in userData
         var tmpUserStats = await YaleContract.UserStats(web3reactContext.account)
-        console.log("tmpUserStats: ",tmpUserStats)
         userData['baseMult'] = parseInt(tmpUserStats[0])
         userData['resets'] = parseInt(tmpUserStats[1])
         userData['pastDue'] = parseInt(tmpUserStats[2])
         userData['debt'] = parseInt(tmpUserStats[3])
         
+        //initialize business data for four businesses
         var busiData = [
           {mult: 0, quantity:0, rate:0, time:0},
           {mult: 0, quantity:0, rate:0, time:0},
@@ -89,62 +91,37 @@ export default function Contract() {
           {mult: 0, quantity:0, rate:0, time:0}
         ]
         
+        //initialize with rate of 0
         var tmpRate = 0
         
+        //loop through each business to calculate total rate
         for(var i = 0; i<4; i += 1) {
           var tmpBusiStats = await YaleContract.Users(web3reactContext.account,i)
-          //console.log("Rate: ", parseInt(tmpUserStats[0]))
           busiData[i]['mult'] = parseInt(tmpBusiStats[0])
           busiData[i]['quantity'] = parseInt(tmpBusiStats[1])
           busiData[i]['rate'] = parseInt(tmpBusiStats[2])
           busiData[i]['time'] = parseInt(tmpBusiStats[3])
 
           tmpRate += (busiData[i]['mult'] * busiData[i]['quantity'] * userData['baseMult'])
-          console.log("i: ", i)
-          console.log("mult: ", busiData[i]['mult'])
-          console.log("quantity: ", busiData[i]['quantity'])
-          console.log("basemult: ", userData['baseMult'])
 
         }
 
-				if (busiData[0]['time'] != 0) {
+				//if user joined game
+        if (busiData[0]['time'] != 0) {
+          //tokens user can mint now
           var tmpMintable = parseInt(await YaleContract.mintableCoin())
           setMintable(tmpMintable)
         }
+        //user hasn't joined game
         else {
           setMintable(0)
         }
 				
-        console.log("Hitting here")
+        //set state variable for balance and rate
         setBalance(balance)
         setRate(tmpRate)
 
-
-
-        /*YOUR CODE HERE
-        This is where we get a connected users info on page load/init
-        Have their address stored in web3reactContext.account
-        Have their current rate stored in tmpRate
-
-        If you want to check if they've started the game, just make sure tmpRate > 0
-
-        If tmpRate > 0:
-          query DB looking for address
-
-          if in DB (LEN OF RETURNED OBJECT > 0)
-            get nickname
-            update rate if stored rate is different than tmpRate
-
-          else (LEN OF RETURNED OBJECT == 0)
-            this is them joining the game so,
-            NEWUSER api call
-            create new DB entry with their address, nickname, and tmpRate
-        Else
-          nothing, they haven't joined the game yet
-
-        */
-
-      //TODO: Implement api call functionality updating/checking database
+      //Implement api call functionality updating/checking database
       //Need to add .then error checks/console logs to make sure everything works
       //use useEffect here? It doesn't work when i try to do it //TF
       // useEffect(() => {
@@ -187,12 +164,13 @@ export default function Contract() {
       })
     }
 
-
+        //set state variables for businesses, user, and load page
         setBusiStats(busiData)
         setUserStats(userData)
 				setLoaded(true)
 			}
-			else {
+			//user isn't connected, so all 0's but still load page
+      else {
         setBalance(0)
         setRate(0)
         setBusiStats([
@@ -205,6 +183,7 @@ export default function Contract() {
         setLoaded(true)
 			}
     } catch (error) {
+        //some error, check console
         console.log(error);
     }
 	}
@@ -213,9 +192,11 @@ export default function Contract() {
 		window.location.reload(false);
 	}
 
+  //function for user to join the game
   async function joinGame() {
     
-    if (web3reactContext.account != undefined) {
+    //need to be connected to site and not joined game yet
+    if (web3reactContext.account != undefined && busiData[0]['time'] == 0) {
       const YaleContract = getContract(
           web3reactContext.library,
           web3reactContext.account
@@ -223,8 +204,9 @@ export default function Contract() {
 
       
       try {
+        //contract call to join game
         let joining = await YaleContract.joinGame();
-
+        //wait for transaction to complete
         await joining.wait();
 
         init();
@@ -235,8 +217,10 @@ export default function Contract() {
     }
 }
 
+//function call to mint tokens
 async function mint() {
     
+    //need to be connected to site
     if(web3reactContext.account != undefined) { 
 
       const YaleContract = getContract(
@@ -244,10 +228,12 @@ async function mint() {
         web3reactContext.account
       );
 
+      //anything to mint?
       if (mintable > 0) {
           try {
+              //function to mint tokens
               let mint = await YaleContract.mintCoin();
-      
+              //wait for transaction to complete
               await mint.wait();
       
               init();
@@ -267,7 +253,10 @@ async function mint() {
       
 }
 
-async function payToEarn() {
+/*
+  IGNORE
+  This function is not being used yet, requires more work
+  async function payToEarn() {
     
     if(web3reactContext.account != undefined) { 
       
@@ -280,15 +269,15 @@ async function payToEarn() {
           
         try {
           
-          /*const web3 = new Web3()
+          //const web3 = new Web3()
 
-          const yaleToken = new web3.eth.Contract(Yale.abi, contractAddress)
+          //const yaleToken = new web3.eth.Contract(Yale.abi, contractAddress)
           
-          console.log("yaleToken: ", yaleToken)
+          //console.log("yaleToken: ", yaleToken)
           
-          const amount = Web3.utils.toWei('0.1', 'ether');
+          //const amount = Web3.utils.toWei('0.1', 'ether');
 
-          yaleToken.methods.payToUpgradeMult().call({from: web3reactContext.address})*/
+          //yaleToken.methods.payToUpgradeMult().call({from: web3reactContext.address})
           
           const amount = Web3.utils.toWei('0.1', 'ether');
           
@@ -312,6 +301,7 @@ async function payToEarn() {
   }
       
 }
+*/
     
     
 
@@ -329,21 +319,21 @@ async function payToEarn() {
       
       
     <>
-      
+    {/* If the init function ran without error, state variable is true and page loads */}  
     {loaded ?
       <div className='font-display'>  
         <div className='flex flex-row justify-between'>
-          <SideNav page="Yale" image={"../yalelogo.svg"} balance={balance} 
+          <SideNav image={"../yalelogo.svg"} balance={balance} 
             rate={rate} mintable={mintable} init={init} joinGame={joinGame} 
-            user={userStats} payToEarn={payToEarn}>
+            user={userStats}>
           </SideNav>
           
           <div className="flex flex-col w-full h-fill bg-[url('../public/yalebg.jpeg')] bg-cover border-l-[5px] border-white 2xl:h-screen">
             
-            <TopNav title="Yale" init={init} reload={reload}></TopNav>
+            <TopNav init={init} reload={reload}></TopNav>
             <TopInfo
-              title="Yale" balance={balance} mintable={mintable} busiStats={busiStats} 
-              joinGame={joinGame} rate={rate} mint={mint} payToEarn={payToEarn}>
+              balance={balance} mintable={mintable} busiStats={busiStats} 
+              joinGame={joinGame} rate={rate} mint={mint}>
             </TopInfo>
 
             <div className="flex flex-col w-full gap-[75px] mt-14 2xl:gap-[100px]">
@@ -376,7 +366,7 @@ async function payToEarn() {
       :
       <>
       
-      <TopNav title="Yale" init={init} reload={reload}></TopNav>
+      <TopNav init={init} reload={reload}></TopNav>
       <a>Something went wrong</a>
 
       </>
