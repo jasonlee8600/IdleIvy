@@ -1,0 +1,6 @@
+
+virtualenv
+flask
+mysql-connector-python
+flask_cors
+pytest
