@@ -24,7 +24,7 @@ We have been using the Jest testing framework for unit testing on the frontend. 
 To run the frontend tests, navigate to the root directory (s23-idleivy), then run these commands:
 
 ```shell
-cd idlyivy/__tests__
+cd idlyivy/__tests__/frontend_tests
 npm test
 ```
 ## Adding Tests
