@@ -2,12 +2,86 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="flex flex-col bg-white h-screen justify-center"
+  className="flex flex-col items-center font-display bg-gradient-to-b from-[#272727] to-[#797979] h-screen justify-center"
 >
-  <h2
-    className="text-[#2222DD]"
+  <div
+    className="mb-[20px]"
   >
-    Join Game!
-  </h2>
+    <h2
+      className="text-white font-semibold text-[90px]"
+    >
+      IdleIvy
+    </h2>
+  </div>
+  <div
+    className="flex flex-row items-center gap-[90px]"
+  >
+    <div
+      className="flex flex-col items-center"
+    >
+      <h2
+        className="text-white font-semibold text-[40px] mb-[20px]"
+      >
+        Harvard
+      </h2>
+      <a
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <button
+          className="text-3xl text-white bg-[#BD1717] px-[35px] py-[10px] w-[250px] h-[100px] rounded-full outline outline-white outline-[7px]"
+          type="button"
+        >
+          Locked
+        </button>
+      </a>
+    </div>
+    <div
+      className="flex flex-col items-center"
+    >
+      <h2
+        className="text-white font-semibold text-[40px] mb-[20px]"
+      >
+        Yale
+      </h2>
+      <a
+        href="./contract"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <button
+          className="text-3xl text-white bg-[#202B64] px-[35px] py-[10px] w-[250px] h-[100px] rounded-full outline outline-white outline-[7px]"
+          type="button"
+        >
+          Click here to play!
+        </button>
+      </a>
+    </div>
+    <div
+      className="flex flex-col items-center"
+    >
+      <h2
+        className="text-white font-semibold text-[40px] mb-[20px]"
+      >
+        Princeton
+      </h2>
+      <a
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <button
+          className="text-3xl text-white bg-[#FF8000] px-[35px] py-[10px] w-[250px] h-[100px] rounded-full outline outline-white outline-[7px]"
+          type="button"
+        >
+          Locked
+        </button>
+      </a>
+    </div>
+  </div>
 </div>
 `;
