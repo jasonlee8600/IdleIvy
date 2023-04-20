@@ -1,8 +1,8 @@
 # IdleIvy
 
 <p align="center">
-    <img src="idlyivy/public/index.png" height="400px" alt="Home screen"><br>
-    <img src="idlyivy/public/contract.png" height="400px" alt="Contract screen"><br>
+    <img src="index.png" height="400px" alt="Home screen"><br>
+    <img src="contract.png" height="400px" alt="Contract screen"><br>
 </p>
 
 # About
