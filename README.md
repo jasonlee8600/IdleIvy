@@ -1,7 +1,6 @@
 # IdleIvy
 
 <p align="center">
-    <img src="index.png" height="400px" alt="Home screen"><br>
     <img src="contract.png" height="400px" alt="Contract screen"><br>
 </p>
 
