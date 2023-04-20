@@ -8,9 +8,23 @@ IdleIvy is an Ivy League themed idle game for users who are interested in crypto
 We will be developing a Next.js application using React for our frontend and Python with Flask as our backend. The game will be based on a Blockchain smart contract hosted on either the Ethereum network or a testnet. User data will be stored partially on the Blockchain and partially in a mySQL database.
 
 # How to Deploy
-WHAT TO INSTALL HERE (requirements.txt) AND HOW TO DEPLOY
-MAYBE INCLUDE METAMASK SETUP HERE TOO
+Add and create a wallet in Metamask. This can be downloaded and added as a google chrome extension very easily. This will create a crypto wallet for you, so take the steps you find necessary to keep your private key safe.
+
+Once you have metamask installed, go to "Add Network" and at the Pulsechain V3 network.
+- Network Name: PulseChain Testnet V3
+- New PRC URL: https://rpc.v3.testnet.pulsechain.com
+- Chain ID: 942
+- Currency Symbol: tPLS
+
+Once the chain is added, go to "https://faucet.v3.testnet.pulsechain.com/" to recieve 10 free tPLS. This will require connecting your wallet to the site and being on the Pulsechain V3 network. This should auto fill your address in the input box and then you can follow the steps to recieve your 10 tPLS.
+
+At this point you're all set up to play the game. Just go to the local version you have running and follow the steps. For any questions please reach out to Gabriel Sleenhof. The web3 aspect of this project can take some getting used to if you haven't seen how it works.
+
 ## Run Frontend
+Run "npm i" in your terminal from the idlyivy directory to make sure you have any imports installed
+Run "npm run dev" in the same terminal from the idlyivy directory
+Go to localhost:3000
+Run 
 ## Run Backend
 To set up the Flask server locally, follow these steps:
 1. Install homebrew if you do not have it already - https://docs.brew.sh/Installation
