@@ -1,5 +1,9 @@
 # IdleIvy
 
+<p align="center">
+    <img src="contract.png" height="400px" alt="Contract screen"><br>
+</p>
+
 # About
 IdleIvy is an Ivy League themed idle game for users who are interested in crypto and fans of this style of gameplay. The in-game currency is in the form of cryptocurrency tokens that are provided via a Blockchain smart contract that is hosted on the Ethereum network or a testnet. Players can then use these tokens in the game to upgrade their items to increase their tokens earned per minute rate.
 
