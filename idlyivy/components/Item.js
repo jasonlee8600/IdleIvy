@@ -2,13 +2,15 @@ import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
 import { useState, useEffect } from "react";
+import Pending from '@/components/Pending'
 
-function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
+function Item({ title, desc, image, busi, busiNum, init, balance, user}) {
     
   //Consts for user wallet connection and business info
   const web3reactContext = useWeb3React();
   const [cost, setCost] = useState(2)
   const [busiCost, setBusiCost] = useState(2)
+  const [pending, setPending] = useState(false);
   
   useEffect(() => {
     loadBusi()
@@ -52,14 +54,19 @@ function Item({ title, desc, image, busi, busiNum, init, balance, user }) {
         
       if (mintable + balance >= tmpCost) {
         try {
+          setPending(true)
           let upgrade = await YaleContract.upgradeMult(busiNum);
 
           await upgrade.wait();
 
           init();
+          setPending(false)
+
         }
         catch (error) {
           console.log(error)
+          setPending(false)
+
         }
       }
       else {
@@ -86,15 +93,20 @@ async function unlockBusi() {
       
     if ((nextBusi == busiNum) && (mintable + balance >= tmpCost)) {
       try {
-        
+        setPending(true)
+
         let unlock = await YaleContract.unlockNextBusiness();
 
         await unlock.wait();
 
         init();
+        setPending(false)
+
       }
       catch (error) {
         console.log(error)
+        setPending(false)
+
       }
     }
     else {
@@ -107,7 +119,8 @@ async function unlockBusi() {
 }
   
   return (
-
+          <>
+            <Pending pending={pending}></Pending>
             <div className='flex flex-row ml-[100px]'>
               <Image alt="Buttery" src={image} width={150} height={90} className="rounded-full outline outline-white outline-[4px]"></Image>
               
@@ -143,6 +156,7 @@ async function unlockBusi() {
                 </div>
               </div>
             </div>
+          </>
 
             );
         }

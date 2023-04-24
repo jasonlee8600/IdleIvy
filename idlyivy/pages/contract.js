@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import Wallet from '@/components/Wallet'
 import TopNav from '@/components/TopNav'
+import Pending from '@/components/Pending'
 import TopInfo from '@/components/TopInfo'
 import {getUser , newUser, updateUser} from './apicalls.js'
 
@@ -34,6 +35,8 @@ export default function Contract() {
     const [mintable, setMintable] = useState(0);
     //If the init loads, this is set to true and the page loads
 	  const [loaded, setLoaded] = useState(false);
+    //Pending state for transactions to complete
+    const [pending, setPending] = useState(false);
     //Info about user's wallet and general blockchain connection
     const web3reactContext = useWeb3React();
     
@@ -204,15 +207,18 @@ export default function Contract() {
 
       
       try {
+        setPending(true)
         //contract call to join game
         let joining = await YaleContract.joinGame();
         //wait for transaction to complete
         await joining.wait();
 
         init();
+        setPending(false)
       }
       catch (error) {
         console.log(error)
+        setPending(false)
       }
     }
 }
@@ -231,15 +237,19 @@ async function mint() {
       //anything to mint?
       if (mintable > 0) {
           try {
+              setPending(true)
               //function to mint tokens
               let mint = await YaleContract.mintCoin();
               //wait for transaction to complete
               await mint.wait();
       
               init();
+              setPending(false)
+
               }
           catch (error) {
               console.log(error)
+              setPending(false)
           }
       }
       else {
@@ -316,13 +326,17 @@ async function mint() {
       
       
     <>
+    
+    <Pending pending={pending}></Pending>
+    
+    
     {/* If the init function ran without error, state variable is true and page loads */}  
     {loaded ?
       <div className='font-display'>  
         <div className='flex flex-row justify-between'>
           <SideNav image={"../yalelogo.svg"} balance={balance} 
             rate={rate} mintable={mintable} init={init} joinGame={joinGame} 
-            user={userStats}>
+            user={userStats} setPending={setPending}>
           </SideNav>
           
           <div className="flex flex-col w-full h-fill bg-[url('../public/yalebg.jpeg')] bg-cover border-l-[5px] border-white 2xl:h-screen">

@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
 
 
-function SideNav({ image, balance, rate, mintable, init, joinGame, user}) {
+function SideNav({ image, balance, rate, mintable, init, joinGame, user, setPending}) {
     
     //Wallet and Blockchain info about user
     const web3reactContext = useWeb3React();
@@ -23,6 +23,7 @@ function SideNav({ image, balance, rate, mintable, init, joinGame, user}) {
             //Check if user has tokens to mint
             if (mintable > 0) {
                 try {
+                    setPending(true)
                     //mint function call to contract
                     let mint = await YaleContract.mintCoin();
             
@@ -30,10 +31,12 @@ function SideNav({ image, balance, rate, mintable, init, joinGame, user}) {
                     await mint.wait();
             
                     init();
+                    setPending(false)
                     }
                 catch (error) {
                     //log if some error
                     console.log(error)
+                    setPending(false)
                 }
             }
             //User doesn't have tokens to mint
