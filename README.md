@@ -25,10 +25,9 @@ Once the chain is added, go to "https://faucet.v3.testnet.pulsechain.com/" to re
 At this point you're all set up to play the game. Just go to the local version you have running and follow the steps. For any questions please reach out to Gabriel Sleenhof. The web3 aspect of this project can take some getting used to if you haven't seen how it works.
 
 ## Run Frontend
-Run "npm i" in your terminal from the idlyivy directory to make sure you have any imports installed
-Run "npm run dev" in the same terminal from the idlyivy directory
-Go to localhost:3000
-Run 
+Run "npm i" in your terminal from the s23-idleivy/idlyivy directory to make sure you have any imports installed. Next, run "npm run dev" in the same terminal and directory. 
+Go to localhost:3000 to access the game.
+
 ## Run Backend
 To set up the Flask server locally, follow these steps:
 1. Install homebrew if you do not have it already - https://docs.brew.sh/Installation
