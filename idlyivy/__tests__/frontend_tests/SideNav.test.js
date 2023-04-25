@@ -1,14 +1,45 @@
+import React from 'react';
 import SideNav from '../../components/SideNav'
-import {render, screen, fireEvent} from '@testing-library/react'
+import {render, screen, cleanup} from '@testing-library/react'
+import renderer from 'react-test-renderer';
 
-test('Should return to homepage when clicking IdleIvy', () => {
-    render(<SideNav />)
-    const IdleIvy_btn = screen.getByTestId('return-home')
-    fireEvent.click(IdleIvy_btn)
-    expect(window.location.href).toEqual('http://localhost/')
-});
+afterEach(() => {
+    cleanup(); 
+})
 
-test('Check title is IdleIvy', () => {
-    render(<SideNav />)
-    expect(screen.getByTestId('IdleIvy').innerHTML).toEqual('IdleIvy')
+describe("SideNav testing", () => {
+    test('renders correctly', () => {
+        const tree = renderer.create(<SideNav />).toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+    
+    test('Check title is IdleIvy', () => {
+        render(<SideNav/>)
+        const title = screen.getByTestId('title')
+        expect(title.innerHTML).toEqual('IdleIvy')
+    });
+    
+    test('Check balance text', () => {
+        render(<SideNav />)
+        const text = screen.getByTestId('balance')
+        expect(text.innerHTML).toEqual('Balance:')
+    });
+    
+    test('Check rate text', () => {
+        render(<SideNav />)
+        const text = screen.getByTestId('rate')
+        expect(text.innerHTML).toEqual('Rate:')
+    });
+    
+    test('Check leaderboard text', () => {
+        render(<SideNav />)
+        const text = screen.getByTestId('leaderboard')
+        expect(text.innerHTML).toEqual('Leaderboard')
+    });
+    
+    test('Check home text', () => {
+        render(<SideNav />)
+        const text = screen.getByTestId('home')
+        expect(text.innerHTML).toEqual('Home')
+    });
 });

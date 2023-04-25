@@ -1,14 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`index.js testing renders correctly 1`] = `
 <div
   className="flex flex-col items-center font-display bg-gradient-to-b from-[#272727] to-[#797979] h-screen justify-center"
+  data-testid="index"
 >
   <div
     className="mb-[20px]"
   >
     <h2
       className="text-white font-semibold text-[90px]"
+      data-testid="title"
     >
       IdleIvy
     </h2>
@@ -54,10 +56,10 @@ exports[`renders correctly 1`] = `
       >
         <button
           className="text-3xl text-white bg-[#202B64] px-[35px] py-[10px] w-[250px] h-[100px] rounded-full outline outline-white outline-[7px]"
+          id="metric_button"
+          onClick={[Function]}
           type="button"
-        >
-          Click here to play!
-        </button>
+        />
       </a>
     </div>
     <div

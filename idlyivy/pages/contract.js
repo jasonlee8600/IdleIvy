@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import SideNav from 'components/SideNav.js'
-import Item from '@/components/Item'
+import SideNav from '../components/SideNav'
+import Item from '../components/Item'
 import buttery from "public/buttery.jpeg"
 import sterling from "public/sterling.jpeg"
 import yaleBowl from "public/yalebowl.jpeg"
@@ -11,10 +11,10 @@ import Yale from "../conect/Yale.json"
 import { contractAddress, getContract } from "../conect/yaleContract";
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import Wallet from '@/components/Wallet'
-import TopNav from '@/components/TopNav'
-import Pending from '@/components/Pending'
-import TopInfo from '@/components/TopInfo'
+import Wallet from '../components/Wallet'
+import TopNav from '../components/TopNav'
+import Pending from '../components/Pending'
+import TopInfo from '../components/TopInfo'
 import {getUser , newUser, updateUser} from './apicalls.js'
 
 
@@ -334,7 +334,7 @@ async function mint() {
     {loaded ?
       <div className='font-display'>  
         <div className='flex flex-row justify-between'>
-          <SideNav image={"../yalelogo.svg"} balance={balance} 
+          <SideNav title='sidenav' image={"../yalelogo.svg"} balance={balance} 
             rate={rate} mintable={mintable} init={init} joinGame={joinGame} 
             user={userStats} setPending={setPending}>
           </SideNav>
@@ -347,7 +347,7 @@ async function mint() {
               joinGame={joinGame} rate={rate} mint={mint}>
             </TopInfo>
 
-            <div className="flex flex-col w-full gap-[75px] mt-14 2xl:gap-[100px]">
+            <div title='items' className="flex flex-col w-full gap-[75px] mt-14 2xl:gap-[100px]">
               <Item 
                 title="Buttery" desc="For students who don't sleep" image={buttery} 
                 busi={busiStats[0]} busiNum={0} init={init} balance={balance} user={userStats}>

@@ -147,9 +147,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='flex flex-col items-center font-display bg-gradient-to-b from-[#272727] to-[#797979] h-screen justify-center'>
+      <div data-testid='index' className='flex flex-col items-center font-display bg-gradient-to-b from-[#272727] to-[#797979] h-screen justify-center'>
           <div className='mb-[20px]'>
-            <h2 className='text-white font-semibold text-[90px]'>IdleIvy</h2>
+            <h2 data-testid='title' className='text-white font-semibold text-[90px]'>IdleIvy</h2>
           </div>
 
           <div className='flex flex-row items-center gap-[90px]'>

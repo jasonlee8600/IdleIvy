@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SideNav testing renders correctly 1`] = `
+<div
+  className="hidden md:flex flex-col items-center w-[250px] min-w-[250px] h-full bg-gradient-to-b from-[#272727] to-[#797979] gap-[30px] 2xl:gap-[60px] h-screen"
+>
+  <div
+    className="mt-[30px]"
+  >
+    <a
+      href="/"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+    >
+      <h2
+        className="text-white font-semibold text-[60px]"
+        data-testid="title"
+      >
+        IdleIvy
+      </h2>
+    </a>
+  </div>
+  <div
+    className=""
+  >
+    <img
+      className="mt=[0px]"
+    />
+  </div>
+  <div
+    className=""
+  >
+    <div
+      className="flex flex-col items-center mt-[0px]"
+    >
+      <h2
+        className="text-3xl text-white"
+        data-testid="balance"
+      >
+        Balance:
+      </h2>
+      <h3
+        className="text-2xl text-white"
+      >
+        NaN
+      </h3>
+    </div>
+    <div
+      className="flex flex-col items-center mt-[25px]"
+    >
+      <h2
+        className="text-3xl text-white"
+        data-testid="rate"
+      >
+        Rate:
+      </h2>
+      <h3
+        className="text-2xl text-white"
+      >
+         tokens/min
+      </h3>
+    </div>
+  </div>
+  <div>
+    <button
+      className="bg-[#202B64] w-40 px-[35px] py-[10px] rounded-full outline outline-white outline-[7px]"
+      type="button"
+    >
+      <div
+        className="flex flex-col items-center"
+      >
+        <h2
+          className="text-2xl text-white"
+        >
+          Connect Wallet!
+        </h2>
+      </div>
+    </button>
+  </div>
+  <div
+    className="mb-[70px]"
+  >
+    <div
+      className="flex flex-col items-center"
+    >
+      <a
+        href="./leaderboard"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <h2
+          className="text-white font-semibold text-[30px]"
+          data-testid="leaderboard"
+        >
+          Leaderboard
+        </h2>
+      </a>
+    </div>
+    <div
+      className="flex flex-col items-center mt-[20px]"
+    >
+      <a
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <h2
+          className="text-white font-semibold text-[30px]"
+          data-testid="home"
+        >
+          Home
+        </h2>
+      </a>
+    </div>
+  </div>
+</div>
+`;

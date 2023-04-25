@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopNav testing renders correctly 1`] = `
+<div
+  className="flex flex-row md:justify-end justify-between sticky top-0  min-h-[75px] w-full z-20 md:border-l-[0px]"
+  data-testid="topnav"
+>
+  <div
+    className="md:hidden flex flex-col pl-4 py-4 justify-between"
+  >
+    <a
+      href="/"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+    >
+      <h2
+        className="text-white font-semibold text-2xl"
+        data-testid="IdleIvy"
+      >
+        IdleIvy
+      </h2>
+    </a>
+    <a
+      href="/leaderboard"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onTouchStart={[Function]}
+    >
+      <h2
+        className="text-white font-semibold text-2xl"
+        data-testid="Leaderboard"
+      >
+        Leaderboard
+      </h2>
+    </a>
+  </div>
+  <div
+    className="px-4 self-center py-1"
+  >
+    <div
+      className="flex flex-col md:flex-row justify-between gap-[20px]"
+    >
+      <div
+        className="relative inline-block text-left w-[200px] h-[40px]"
+      >
+        <div>
+          <button
+            className="btn-nav w-full text-xl hover:border-2 dark:border-white border-black"
+            onClick={[Function]}
+            type="button"
+          >
+            Connect
+            <div
+              className="ml-6"
+            >
+              <img
+                className="w-6 h-6 mt-1"
+                src="drop.png"
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+      <div
+        className="btn-nav w-[200px] bg-[#607BEE] hover:bg-[#607BEE] font-semibold"
+      >
+        <h2>
+          Not Connected
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+`;

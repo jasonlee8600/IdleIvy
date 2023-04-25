@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Leaderboard testing renders correctly 1`] = `
+<div
+  className="flex flex-col w-4/5 h-fit bg-gradient-to-b from-[#272727] to-[#797979] self-center items-center border-[5px] border-white"
+  data-testid="leaderboard"
+>
+  <div
+    className="font-display container h-14 content-center text-center grid grid-cols-11 bg-[#202B64] border-b-[3px] border-white"
+  >
+    <div
+      className="tile col-span-5"
+    >
+      Nickname
+    </div>
+    <div
+      className="tile col-span-5"
+    >
+      Rate
+    </div>
+  </div>
+</div>
+`;

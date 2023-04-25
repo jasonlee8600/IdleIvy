@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useWeb3React } from "@web3-react/core";
 import { getContract } from "../conect/yaleContract";
 import { useState, useEffect } from "react";
-import Pending from '@/components/Pending'
+import Pending from './Pending'
 
 function Item({ title, desc, image, busi, busiNum, init, balance, user}) {
     

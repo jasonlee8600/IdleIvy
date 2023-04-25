@@ -56,10 +56,10 @@ function SideNav({ image, balance, rate, mintable, init, joinGame, user, setPend
     return (
         <div className="hidden md:flex flex-col items-center w-[250px] min-w-[250px] h-full bg-gradient-to-b from-[#272727] to-[#797979] gap-[30px] 2xl:gap-[60px] h-screen">
             <div className="mt-[30px]">
-                <Link data-testid="return-home" href="/">
-                        <h2 data-testid="IdleIvy" className="text-white font-semibold text-[60px]">
-                            IdleIvy
-                        </h2>
+                <Link href="/">
+                    <h2 data-testid="title" className="text-white font-semibold text-[60px]">
+                        IdleIvy
+                    </h2>
                 </Link>
             </div>
 
@@ -69,14 +69,14 @@ function SideNav({ image, balance, rate, mintable, init, joinGame, user, setPend
 
             <div className="">
                 <div className="flex flex-col items-center mt-[0px]">
-                    <h2 className={`text-3xl text-white`}>
+                    <h2 data-testid="balance" className={`text-3xl text-white`}>
                         Balance:
                     </h2>
                     <h3 className={`text-2xl text-white`}>{balance/10}</h3>
                 </div>
 
                 <div className="flex flex-col items-center mt-[25px]">
-                    <h2 className={`text-3xl text-white`}>
+                    <h2 data-testid="rate" className={`text-3xl text-white`}>
                         Rate:
                     </h2>
                     <h3 className={`text-2xl text-white`}>{rate} tokens/min</h3>
@@ -131,7 +131,7 @@ function SideNav({ image, balance, rate, mintable, init, joinGame, user, setPend
             <div className="mb-[70px]">
                 <div className="flex flex-col items-center">
                     <Link href="./leaderboard">
-                        <h2 className="text-white font-semibold text-[30px]">
+                        <h2 data-testid='leaderboard' className="text-white font-semibold text-[30px]">
                             Leaderboard
                         </h2>
                     </Link>
@@ -139,7 +139,7 @@ function SideNav({ image, balance, rate, mintable, init, joinGame, user, setPend
 
                 <div className="flex flex-col items-center mt-[20px]">
                     <Link href="/">
-                        <h2 className="text-white font-semibold text-[30px]">
+                        <h2 data-testid='home' className="text-white font-semibold text-[30px]">
                             Home
                         </h2>
                     </Link>
