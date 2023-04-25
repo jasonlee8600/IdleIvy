@@ -54,7 +54,7 @@ From within the FlaskAPI directory.
 
 ## Frontend Testing
 
-We have been using the Jest testing framework for unit testing on the frontend. Here, we included screenshot testing to ensure the page is rendered correctly as well as testing all buttons of interest and their respective onClick functions (e.g. navigating to a different page, interacting with smart contract for tokens, etc.).
+We have been using the Jest testing framework for unit testing on the frontend. Here, we included screenshot testing to ensure the enitre page and any included Next.js components are rendered correctly. We also test to make sure the HTML tags contain the correct innerHTML text to be displayed to users.
 
 To run the frontend tests, navigate to the root directory (s23-idleivy), then run these commands:
 
