@@ -141,7 +141,7 @@ export default function Contract() {
         {
           //NEWUSER API CALL
           //need to add something that asks for their desired nickname
-          newUser(web3reactContext.account, 'FAKENICK');
+          newUser(web3reactContext.account, web3reactContext.account.substring(0,5) + "..." + web3reactContext.account.substring(38));
           //add error checking here
 
         }
@@ -199,7 +199,7 @@ export default function Contract() {
   async function joinGame() {
     
     //need to be connected to site and not joined game yet
-    if (web3reactContext.account != undefined && busiData[0]['time'] == 0) {
+    if (web3reactContext.account != undefined) {
       const YaleContract = getContract(
           web3reactContext.library,
           web3reactContext.account
