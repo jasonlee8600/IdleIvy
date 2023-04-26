@@ -31,7 +31,7 @@ Go to localhost:3000 to access the game.
 ## Run Backend
 To set up the Flask server locally, follow these steps:
 1. Install homebrew if you do not have it already - https://docs.brew.sh/Installation
-2. Open a new terminal window and cd to /idleivy/flaskAPI
+2. Open a new terminal window and cd to s23-idleivy/FlaskAPI
 3. Create a virtual environment - you can do this by running the following commands:
 ```shell
 brew install virtualenv
