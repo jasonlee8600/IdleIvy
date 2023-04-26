@@ -1,4 +1,6 @@
 name: Testing
+run-name: ${{ github.actor }} is testing the backend with PyTest
+
 
 on: [push]
 
