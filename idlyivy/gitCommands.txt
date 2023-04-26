@@ -24,7 +24,7 @@ If the changes you made are in a branch, push when you are done and merge if saf
         - git switch main
     Merge and push 
         - git merge BranchName
-        - git push
+        - git push 
 
 If you want to create a branch
     - git branch NewBranchName
