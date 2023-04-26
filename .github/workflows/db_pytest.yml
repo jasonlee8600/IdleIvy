@@ -1,54 +1,25 @@
-# name: test_db.py
-# run-name: ${{ github.actor }} is testing the backend with Pytest
-
-# on: [push]
-
-# jobs:
-#   test_backend:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
-#     steps:
-#       - uses: actions/checkout@v3
-#       - run: pytest -rm
-      
-name: PyTest
-run-name: ${{ github.actor }} is testing the backend with Pytest
+name: Testing
 
 on: [push]
 
 jobs:
-  test_backend:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    strategy:
+      matrix:
+        # Run in all these versions of Python
+        python-version: [3.8, 3.9]
 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-
-      # Setup Python (faster than using Python container)
-      - name: Setup Python
-        uses: actions/setup-python@v2
+        # Install requirements
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
         with:
-          python-version: "3.x"
-        
-      - name: Execute tests
+          path: "./FlaskAPI/requirements.txt"
+          update-pip: "true"
+          update-setuptools: "true"
+          update-wheel: "true"
+      # Begin testing.
+      # Run pytest backend tests.
+      - name: backend tests
         run: pytest -rm
-
-#       - name: Install pipenv
-#         run: |
-#           python -m pip install --upgrade pipenv wheel
-#       - id: cache-pipenv
-#         uses: actions/cache@v1
-#         with:
-#           path: ~/.local/share/virtualenvs
-#           key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-
-#       - name: Install dependencies
-#         if: steps.cache-pipenv.outputs.cache-hit != 'true'
-#         run: |
-#           pipenv install --deploy --dev
-#       - name: Run test suite
-#         run: |
-#           pipenv run test -v
