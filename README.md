@@ -49,7 +49,7 @@ We use pytest to conduct elementary unit tests on our Flask API endpoints. The t
 ```shell
 pytest -rm
 ```
-From within the FlaskAPI directory.
+From within the FlaskAPI directory. 
 
 
 ## Frontend Testing
